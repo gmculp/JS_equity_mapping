@@ -1,0 +1,94 @@
+{
+  "legends": [
+    {
+      "id": 1,
+      "title": "Percent of population whose income in the past 12 months is below the poverty level",
+      "contents": [
+        {
+          "color": "#FBE2E2",
+          "label": "0% - >20%"
+        },
+        {
+          "color": "#EBB9B9",
+          "label": "20% - >40%"
+        },
+        {
+          "color": "#DB9191",
+          "label": "40% - >60%"
+        },
+        {
+          "color": "#CB6969",
+          "label": "60% - >80%"
+        },
+        {
+          "color": "#B63C3C",
+          "label": "80% - 100%"
+        },
+        {
+          "color": "#B9B9B9",
+          "label": "NA"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Percent of housing structures that are owner-occupied and built after 1959",
+      "contents": [
+        {
+          "color": "#D5EED5",
+          "label": "0% - >20%"
+        },
+        {
+          "color": "#A1D2A1",
+          "label": "20% - >40%"
+        },
+        {
+          "color": "#6CB66C",
+          "label": "40% - >60%"
+        },
+        {
+          "color": "#369836",
+          "label": "60% - >80%"
+        },
+        {
+          "color": "#007A00",
+          "label": "80% - 100%"
+        },
+        {
+          "color": "#B9B9B9",
+          "label": "NA"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Percent of housing structures that are owner-occupied, single-family and detached",
+      "contents": [
+        {
+          "color": "#E6E6FF",
+          "label": "0% - >20%"
+        },
+        {
+          "color": "#C1C1F2",
+          "label": "20% - >40%"
+        },
+        {
+          "color": "#9E9EE8",
+          "label": "40% - >60%"
+        },
+        {
+          "color": "#7C7CDE",
+          "label": "60% - >80%"
+        },
+        {
+          "color": "#5858D2",
+          "label": "80% - 100%"
+        },
+        {
+          "color": "#B9B9B9",
+          "label": "NA"
+        }
+      ]
+    }
+  ]
+}
