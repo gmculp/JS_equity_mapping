@@ -1,4 +1,4 @@
-const legend_specs = '{
+const legend_specs = {
   "legends": [
     {
       "id": 1,
@@ -91,6 +91,5 @@ const legend_specs = '{
       ]
     }
   ]
-}';
+};
 
-module.exports = { legend_specs };
