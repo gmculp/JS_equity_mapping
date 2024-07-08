@@ -1,4 +1,4 @@
-var legend_specs = '{
+const legend_specs = '{
   "legends": [
     {
       "id": 1,
