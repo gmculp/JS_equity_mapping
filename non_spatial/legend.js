@@ -92,4 +92,5 @@ const legend_specs = '{
     }
   ]
 }';
-export { legend_specs };
+
+module.exports = { legend_specs };
