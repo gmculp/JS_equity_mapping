@@ -91,5 +91,5 @@ const legend_specs = {
       ]
     }
   ]
-};
+}
 
