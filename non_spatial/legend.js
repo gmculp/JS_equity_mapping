@@ -92,3 +92,4 @@ const legend_specs = '{
     }
   ]
 }';
+export { legend_specs };
