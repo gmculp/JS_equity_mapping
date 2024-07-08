@@ -1,4 +1,4 @@
-let legend_specs = '{
+var legend_specs = '{
   "legends": [
     {
       "id": 1,
