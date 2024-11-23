@@ -795,4 +795,4 @@ const legend_specs = {
         ]
       }
     ]
-};
+}
