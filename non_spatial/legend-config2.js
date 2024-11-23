@@ -1,6 +1,5 @@
 const legend_specs = {
   "legends": [
-    [
       {
         "var_name": "all_all",
         "title": "All variables",
@@ -796,5 +795,4 @@ const legend_specs = {
         ]
       }
     ]
-  ]
 };
