@@ -1,5 +1,5 @@
 var baseTree = {
-    label: 'HEEP Variables',
+    label: 'HEEP Index',
 	name: 'all_all',
     children: [
         {
