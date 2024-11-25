@@ -220,12 +220,19 @@
 		
 		
 		
-	//add ESRI REST service 
+	//add ESRI REST service  
 	const CDBG = L.esri.featureLayer({
           url: "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Community_Development_Block_Grant_Grantee_Areas/FeatureServer/0",
 		  where: "TYPE='51' AND STATE='06'",
-		 // style: {color: "gold", weight: 1, fillPattern: stripes, fillOpacity: 1.0}
-		  style: {color: "white", weight: 2, fillOpacity: 0.0}
+		  style: {color: "white", weight: 2, fillOpacity: 0.0},
+		  onEachFeature: (feature, layer) => {
+			layer.on('mouseover', (e) => {
+				var layer = e.target;
+				layer.setStyle({weight: 5, color: '#FFF', dashArray: '', fillOpacity: 0.7});
+				layer.bringToFront();
+			});
+			layer.on('mouseout', (e) => CDBG.resetStyle(e.target.feature.id));
+		  }
         });
         
 		
