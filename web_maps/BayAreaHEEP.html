@@ -37,7 +37,7 @@
 	  
 	  .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; color:white; color: rgba(255, 255, 255, 1.0); background: #777777; background: rgba(0,0,0,1.0); box-shadow: 0 0 15px rgba(255,255,255,0.2); border-radius: 5px; border:solid 1px rgba(255, 255, 255, 0.4);} 
 	  
-	.info h4 { margin: 0 0 0px 0; color: #FFFFFF; display: inline !important; padding:0 0 0px 0;}
+	.info h4 { margin: 0 0 0px 0; color: #FFFFFF; }
 	
 	.legend { text-align: left; line-height: 18px; color: #555; max-width: 250px;color: #FFFFFF; } 
 
@@ -71,14 +71,12 @@
     <!-- Load Esri Leaflet Vector from CDN -->
     <script src="https://unpkg.com/esri-leaflet-vector@4.2.4/dist/esri-leaflet-vector.js" crossorigin=""></script>
 	
-	
 	<!-- Include spin.js -->
         <script src="https://cdn.jsdelivr.net/spinjs/1.3.0/spin.min.js"></script>
     
 	
     <script>
 	
-	 
 	//add map container
 	let map = L.map('map-container', {attributionControl: false});
     map.setView([37.8, -122.4], 7);
@@ -87,12 +85,8 @@
 	//add spinner
 	var target = document.getElementById('map-container');
 	spinner = new Spinner().spin(target); 
-	  
-	
 	 
-	  
-    
-	
+	 
 	//extend Leaflet to create a GeoJSON layer from a TopoJSON file
       L.TopoJSON = L.GeoJSON.extend({
         addData: function (data) {
@@ -115,9 +109,9 @@
         return new L.TopoJSON(data, options);
       };
 	  
-	function onEachFeature(feature, layer) {
-		layer.bindPopup('<p>GEOID: '+feature.properties.GEOID+'</p>')
-	}
+	//function onEachFeature(feature, layer) {
+	//	layer.bindPopup('<p>GEOID: '+feature.properties.GEOID+'</p>')
+	//}
 	
 	function lame(my_col) { 
 		return {
@@ -146,8 +140,7 @@
 			}
 			
 			labels.push('<i style="background:black"></i>' );
-			labels.push('<i style="box-shadow:0px 0px 0px 3px #7FFF00 inset; margin-bottom:3px; opacity: 1.0;"></i> HUD Grantee' );
-
+			
 			div.innerHTML = labels.join('<br>');
 			
 			return div;
@@ -155,72 +148,57 @@
 		};
 	};
 	
-	
-	
-	
-	
-	
-	
-	
 	var this_legend;	
 		
-		//attempt to automate layer generation
-		let leg_arr = legend_specs.legends;
-		var overlayMaps = {};
-		let zing = baseTree;
-		const layer_arr = [];
-		const overlayLegends = {};
+	//attempt to automate layer generation
+	let leg_arr = legend_specs.legends;
+	var overlayMaps = {};
+	let zing = baseTree;
+	const layer_arr = [];
+	const overlayLegends = {};
+	
+	for (var i = 0; i < leg_arr.length; i++) {
+	
+		var str = leg_arr[i].title;
+		var my_var = leg_arr[i].var_name;
 		
+		//generate legends
+		var legend = L.control({position: 'topright'});
+		legend.onAdd = myLegend(i,str);
+		overlayLegends[my_var] = legend;
 		
+		//generate empty map layers
+		var gj = new L.topoJson(null, {
+			//onEachFeature
+		});
 		
+		gj.options['col_var'] = my_var;
 		
-		for (var i = 0; i < leg_arr.length; i++) {
-		
-			var str = leg_arr[i].title;
-			var my_var = leg_arr[i].var_name;
-			
-			
-			//generate legends
-			var legend = L.control({position: 'topright'});
-			legend.onAdd = myLegend(i,str);
-			overlayLegends[my_var] = legend;
-			
-			//generate empty map layers
-			var gj = new L.topoJson(null, {
-				//onEachFeature
-			});
-			
-			gj.options['col_var'] = my_var;
-			
-			if (i==0) {
-				gj.addTo(map);
-				this_legend = legend;
-			}
-			
-			layer_arr.push(gj);
-			
-			overlayMaps[my_var] = gj;
-			
+		if (i==0) {
+			gj.addTo(map);
+			this_legend = legend;
 		}
 		
+		layer_arr.push(gj);
+		
+		overlayMaps[my_var] = gj;
+		
+	}
 		
 		
-		//manual way to update layer
-		zing['layer'] = overlayMaps[zing['name'] ];
-		for (var i = 0; i < zing['children'].length; i++) {
-			zing['children'][i]['layer'] = overlayMaps[zing['children'][i]['name']];
-			for (var j = 0; j < zing['children'][i]['children'].length; j++) {
-				zing['children'][i]['children'][j]['layer'] = overlayMaps[zing['children'][i]['children'][j]['name']];
-			}
+	//manual way to update layer
+	zing['layer'] = overlayMaps[zing['name']];
+	for (var i = 0; i < zing['children'].length; i++) {
+		var c1 = zing['children'][i];
+		c1['layer'] = overlayMaps[c1['name']];
+		for (var j = 0; j < c1['children'].length; j++) {
+			var c2 = c1['children'][j];
+			c2['layer'] = overlayMaps[c2['name']];
 		}
+	}
 		
-		
-		
-		
-		
-		
-		
-	//add ESRI REST service  
+	
+	//add ESRI REST service 
 	const CDBG = L.esri.featureLayer({
           url: "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Community_Development_Block_Grant_Grantee_Areas/FeatureServer/0",
 		  where: "TYPE='51' AND STATE='06'",
@@ -242,18 +220,20 @@
           layer.feature.properties
         );
       });
-	  
-	  
-	  
 	
+	
+	var CDBG_legend = L.control({position: 'topright'});
+	
+	CDBG_legend.onAdd = function (map) {
+		const div = L.DomUtil.create('div', 'info legend');
+		div.innerHTML = '<i style="box-shadow:0px 0px 0px 3px #7FFF00 inset; margin-bottom:3px; opacity: 1.0;"></i> HUD Grantee';
+		return div;
+	};
+
+
+	var overlaysTree = {label: 'HUD Grantees', layer: CDBG};
         
 		
-	
-	
-	
-	
-	
-      
       //define a function to get and parse geojson from URL
       async function getGeoData(url) {
         let response = await fetch(url);
@@ -261,25 +241,47 @@
         return data;
       }
       
-	  //console.log(overlayMaps);
 	  
 	  function legendAdd(event) {
 	  
 		var layername = event["layer"]["_layersTreeName"];
-	  
-		CDBG.remove(map);
+		
+		var CDBG_on = map.hasLayer(CDBG);
+		
+		if(CDBG_on){
+			CDBG.remove(map);
+			map.removeControl(CDBG_legend);
+		}
 		
 		map.removeControl(this_legend);
 		this_legend = overlayLegends[layername];
 		map.addControl(this_legend);
 		
-		CDBG.addTo(map);
+		if(CDBG_on){
+			CDBG.addTo(map)
+			map.addControl(CDBG_legend);
+		}
 		
 	  }
 	  
-	  map.on('baselayerchange',legendAdd);
-	 
-	
+	  map.on('baselayerchange', legendAdd);
+	  
+	  map.on('overlayadd', function(e){
+		if(e.layer._leaflet_id == L.stamp(CDBG)){
+			map.addControl(CDBG_legend);
+		}
+	  })
+	  
+	  
+	  map.on('overlayremove',function(e){
+		if(e.layer._leaflet_id == L.stamp(CDBG)){
+			map.removeControl(CDBG_legend);
+		}
+	  })
+	  
+	  
+	  
+	var lay;
 	  
       //fetch the geojson and add it to our geojson layer
       getGeoData('../topojson/USCB_06_tract_2020.topojson').then(data => {
@@ -311,7 +313,7 @@
 	bglayer_Positron.addTo(map);
 		
 			
-			var lay = L.control.layers.tree(zing,null,{
+			lay = L.control.layers.tree(zing,overlaysTree,{
                 namedToggle: true,
                 selectorBack: false,
                 closedSymbol: '&#8862; &#x1f5c0;',
@@ -332,11 +334,10 @@
 		map.zoomControl.setPosition('bottomright'); 
 		
 		map.addControl(this_legend);
+		map.addControl(CDBG_legend);  
 		spinner.stop();
 	  });
 	 
-	 
-	  
     </script>
   </body>
 </html>
