@@ -1,5 +1,5 @@
 var baseTree = {
-    label: 'HEEP Index',
+    label: 'Electrification Equity Index',
 	name: 'all_all',
     children: [
         {
