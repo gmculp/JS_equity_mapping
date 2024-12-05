@@ -392,7 +392,7 @@ const legend_specs = {
     },
     {
       "var_name": "lang",
-      "title": "Percentage of people who speak English less than \"very well\"",
+      "title": "Percentage of people over 5 years of age who speak English less than \"very well\"",
       "contents": [
         {
           "label": "0% - 6%",
