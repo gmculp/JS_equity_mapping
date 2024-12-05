@@ -2,7 +2,7 @@ const legend_specs = {
   "legends": [
     {
       "var_name": "all_all",
-      "title": "All variables",
+      "title": "Index of variables that likely contribute to energy insecurity/energy burden",
       "contents": [
         {
           "label": "very low vulnerability",
