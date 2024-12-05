@@ -132,7 +132,7 @@ const legend_specs = {
     },
     {
       "var_name": "CANCER",
-      "title": "Cancer (non-skin) or melanoma among adults",
+      "title": "Percentage of adults experiencing cancer (non-skin) or melanoma",
       "contents": [
         {
           "label": "1% - 4.8%",
@@ -158,7 +158,7 @@ const legend_specs = {
     },
     {
       "var_name": "CASTHMA",
-      "title": "Current asthma among adults",
+      "title": "Percentage of adults currently experiencing asthma",
       "contents": [
         {
           "label": "5.9% - 8.3%",
@@ -184,7 +184,7 @@ const legend_specs = {
     },
     {
       "var_name": "CHD",
-      "title": "Coronary heart disease among adults",
+      "title": "Percentage of adults experiencing coronary heart disease",
       "contents": [
         {
           "label": "1% - 4.2%",
@@ -210,7 +210,7 @@ const legend_specs = {
     },
     {
       "var_name": "child_hh",
-      "title": "Households with young children (age <= 5 years)",
+      "title": "Percentage of households with young children (age <= 5 years)",
       "contents": [
         {
           "label": "0% - 3%",
@@ -236,7 +236,7 @@ const legend_specs = {
     },
     {
       "var_name": "COPD",
-      "title": "Chronic obstructive pulmonary disease among adults",
+      "title": "Percentage of adults experiencing chronic obstructive pulmonary disease",
       "contents": [
         {
           "label": "0.9% - 3.4%",
@@ -262,7 +262,7 @@ const legend_specs = {
     },
     {
       "var_name": "cost_burden_50",
-      "title": "Housing costs > 50% of household income",
+      "title": "Percentage of households where housing costs exceed 50% of household income",
       "contents": [
         {
           "label": "0% - 10%",
@@ -288,7 +288,7 @@ const legend_specs = {
     },
     {
       "var_name": "crowd",
-      "title": "Occupants per room > 1 person",
+      "title": "Percentage of household with more than one occupants per room",
       "contents": [
         {
           "label": "0% - 1%",
@@ -314,7 +314,7 @@ const legend_specs = {
     },
     {
       "var_name": "DIABETES",
-      "title": "Diagnosed diabetes among adults",
+      "title": "Percentage of adults diagnosed with diabetes",
       "contents": [
         {
           "label": "2% - 8.5%",
@@ -340,7 +340,7 @@ const legend_specs = {
     },
     {
       "var_name": "DISABILITY",
-      "title": "Any disability among adults",
+      "title": "Percentage of adults with any disability",
       "contents": [
         {
           "label": "10.6% - 20.4%",
@@ -366,7 +366,7 @@ const legend_specs = {
     },
     {
       "var_name": "home_pre_1960",
-      "title": "Home built before 1960",
+      "title": "Percentage of homes built before 1960",
       "contents": [
         {
           "label": "0% - 5%",
@@ -392,7 +392,7 @@ const legend_specs = {
     },
     {
       "var_name": "lang",
-      "title": "People who speak English less than \"very well\"",
+      "title": "Percentage of people who speak English less than \"very well\"",
       "contents": [
         {
           "label": "0% - 6%",
@@ -418,7 +418,7 @@ const legend_specs = {
     },
     {
       "var_name": "low_edu",
-      "title": "Adults with less than a high school diploma",
+      "title": "Percentage of adults with less than a high school diploma",
       "contents": [
         {
           "label": "0% - 3%",
@@ -458,7 +458,7 @@ const legend_specs = {
     },
     {
       "var_name": "multi_unit",
-      "title": "Households in multi unit dwellings",
+      "title": "Percentage of households within multi unit dwellings",
       "contents": [
         {
           "label": "0% - 7%",
@@ -484,7 +484,7 @@ const legend_specs = {
     },
     {
       "var_name": "perc_impervious",
-      "title": "Impervious surfaces",
+      "title": "Percentage of tract area categorized as impervious surfaces",
       "contents": [
         {
           "label": "0% - 29.8%",
@@ -510,7 +510,7 @@ const legend_specs = {
     },
     {
       "var_name": "perc_tree_canopy",
-      "title": "Tree canopy",
+      "title": "Percentage of tract area categorized as tree canopy",
       "contents": [
         {
           "label": ">12% - 65%",
@@ -562,7 +562,7 @@ const legend_specs = {
     },
     {
       "var_name": "poc",
-      "title": "People of color",
+      "title": "Percentage of population identifying as people of color (non white)",
       "contents": [
         {
           "label": "6% - 40%",
@@ -588,7 +588,7 @@ const legend_specs = {
     },
     {
       "var_name": "psps",
-      "title": "Public safety power shutoff areas",
+      "title": "Percentage of tract area within PG&E Public safety power shut off areas",
       "contents": [
         {
           "label": "0% - 7%",
@@ -640,7 +640,7 @@ const legend_specs = {
     },
     {
       "var_name": "redline",
-      "title": "Redlined areas",
+      "title": "Percentage of tract area within historically redlined areas",
       "contents": [
         {
           "label": "1% - 6%",
@@ -666,7 +666,7 @@ const legend_specs = {
     },
     {
       "var_name": "renter",
-      "title": "Renter-occupied housing units",
+      "title": "Percentage of housing units that are renter-occupied",
       "contents": [
         {
           "label": "3% - 20%",
@@ -692,7 +692,7 @@ const legend_specs = {
     },
     {
       "var_name": "senior_hh",
-      "title": "Households with older adults (age >= 65 years)",
+      "title": "Percentage of households with older adults (age >= 65 years)",
       "contents": [
         {
           "label": "0% - 21%",
@@ -718,7 +718,7 @@ const legend_specs = {
     },
     {
       "var_name": "SHUTUTILITY",
-      "title": "Threat of utility services cutoff",
+      "title": "Percentage of househilds which experienced threat of utility services cutoff",
       "contents": [
         {
           "label": "1.2% - 3.3%",
@@ -744,7 +744,7 @@ const legend_specs = {
     },
     {
       "var_name": "single_hohh_dep",
-      "title": "Single head of household living with dependents",
+      "title": "Percentage of households where head is single and living with dependents",
       "contents": [
         {
           "label": "0% - 7%",
@@ -770,7 +770,7 @@ const legend_specs = {
     },
     {
       "var_name": "unemp",
-      "title": "Unemployed civilian labor force",
+      "title": "Percentage of civilian labor force experiencing unemployment",
       "contents": [
         {
           "label": "0% - 3%",
