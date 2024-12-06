@@ -536,7 +536,7 @@ const legend_specs = {
     },
     {
       "var_name": "PM25",
-      "title": "PM 2.5",
+      "title": "Potential exposure to PM 2.5",
       "contents": [
         {
           "label": "7.53% - 9.91%",
