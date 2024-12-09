@@ -13,6 +13,7 @@ library(data.table)
 library(censusapi)
 library(geos)
 library(httr)
+library(jsonlite)
 data.table::setDTthreads(1)
 
 
@@ -274,11 +275,11 @@ generate_EJSCREEN_table <- function(FIPS.dt) {
 
 	base.url <- 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/EJScreen_StatePctiles_with_AS_CNMI_GU_VI_Tracts/FeatureServer/0'
 
-	#ptraf: Traffic proximity; Count of vehicles (AADT, avg. annual daily traffic) at major roads within 500 meters, divided by distance in meters (not km)
+	#P_D2_PTRAF: Traffic proximity; Count of vehicles (AADT, avg. annual daily traffic) at major roads within 500 meters, divided by distance in meters (not km)
 	
-	#pm25: Particulate Matter 2.5; Annual average PM2.5 levels in air
+	#P_D2_PM25: Particulate Matter 2.5; Annual average PM2.5 levels in air
 	
-	q2 <- "ID,PTRAF,PM25"
+	q2 <- "ID,P_D2_PTRAF,P_D2_PM25"
 
 	epa.dt <- rbindlist(lapply(paste0(FIPS.dt$state,FIPS.dt$county),function(f){
 
@@ -303,14 +304,14 @@ generate_EJSCREEN_table <- function(FIPS.dt) {
 	epa.dt <- epa.dt[!is.na(var_value)]
 
 	###inhalable particles <= 2.5 microns###
-	sub.dt1 <- epa.dt[var_name=="PM25"]
+	sub.dt1 <- epa.dt[var_name=="P_D2_PM25"]
 	my_brks <- quantile(sub.dt1$var_value, probs = seq(0, 1, length.out = 6), na.rm=TRUE)
 	sub.dt1[,var_weight := as.character(cut(var_value, my_brks, include.lowest=T, right = T, labels = FALSE))]
 	sub.dt1[,var_legend := cut(var_value, my_brks, include.lowest=T, right = T, labels=class.data(my_brks,2,"%"," - ",1))]
 
 
 	###traffic intensity### 
-	sub.dt2 <- epa.dt[var_name=="PTRAF"]
+	sub.dt2 <- epa.dt[var_name=="P_D2_PTRAF"]
 	my_brks <- quantile(sub.dt2$var_value, probs = seq(0, 1, length.out = 6), na.rm=TRUE)
 	sub.dt2[,var_weight := as.character(cut(var_value, my_brks, include.lowest=T, right = T, labels = FALSE))]
 	sub.dt2[,var_legend := cut(var_value, my_brks, include.lowest=T, right = T, labels=class.data(trimws(sprintf("%sM", format(round(my_brks/1000000, 1), dec="."))),NULL,""," - ",1))]
@@ -911,7 +912,7 @@ generate_ACS_table <- function(FIPS.dt){
 
 }
 
-generate_map_variables <- function(FIPS.dt, USCB_TIGER.path, raster.path, geo.year){
+generate_map_variables <- function(FIPS.dt, USCB_TIGER.path, raster.path, geo.year, export_path){
 
 	dt.1 <- generate_ACS_table(FIPS.dt)
 	dt.2 <- generate_environmental_table(FIPS.dt, USCB_TIGER.path, raster.path, geo.year)
@@ -944,16 +945,13 @@ generate_map_variables <- function(FIPS.dt, USCB_TIGER.path, raster.path, geo.ye
 	out.dt <- dcast(out.dt, GEOID ~ variable, value.var = "value")
 	setorder(out.dt,GEOID)
 	
-	
-	library(jsonlite)
-	
 	###############################
 	###generate legend JSON file###
 	###############################
 	
 	###generate legend JS file###
 	
-	specs.dt <- data.table(title=c('Households with older adults (age >= 65 years)','Households with young children (age <= 5 years)','People of color','People who speak English less than "very well"','Adults with less than a high school diploma','Unemployed civilian labor force','Tract median income <= 60% county median income','All sociodemographic variables','Home built before 1960','Housing costs > 50% of household income','Households in multi unit dwellings','Renter-occupied housing units','Single head of household living with dependents','Occupants per room > 1 person','Threat of utility services cutoff','All housing and energy variables','Coronary heart disease among adults','Chronic obstructive pulmonary disease among adults','Diagnosed diabetes among adults','Cancer (non-skin) or melanoma among adults','Current asthma among adults','All health and disability variables','Impervious surfaces','Tree canopy','PM 2.5','Traffic proximity','Public safety power shutoff areas','All environmental variables','Redlined areas','All variables','Any disability among adults'),var_name=c("senior_hh","child_hh","poc","lang","low_edu","unemp","med_inc_60","all_soc_dem","home_pre_1960","cost_burden_50","multi_unit","renter","single_hohh_dep","crowd","SHUTUTILITY","all_house_energy","CHD","COPD","DIABETES","CANCER","CASTHMA","all_health_dis","perc_impervious","perc_tree_canopy","PM25","PTRAF","psps","all_environmental","redline","all_all","DISABILITY"))
+	specs.dt <- data.table(title=c('Households with older adults (age >= 65 years)','Households with young children (age <= 5 years)','People of color','People who speak English less than "very well"','Adults with less than a high school diploma','Unemployed civilian labor force','Tract median income <= 60% county median income','All sociodemographic variables','Home built before 1960','Housing costs > 50% of household income','Households in multi unit dwellings','Renter-occupied housing units','Single head of household living with dependents','Occupants per room > 1 person','Threat of utility services cutoff','All housing and energy variables','Coronary heart disease among adults','Chronic obstructive pulmonary disease among adults','Diagnosed diabetes among adults','Cancer (non-skin) or melanoma among adults','Current asthma among adults','All health and disability variables','Impervious surfaces','Tree canopy','PM 2.5','Traffic proximity','Public safety power shutoff areas','All environmental variables','Redlined areas','All variables','Any disability among adults'),var_name=c("senior_hh","child_hh","poc","lang","low_edu","unemp","med_inc_60","all_soc_dem","home_pre_1960","cost_burden_50","multi_unit","renter","single_hohh_dep","crowd","SHUTUTILITY","all_house_energy","CHD","COPD","DIABETES","CANCER","CASTHMA","all_health_dis","perc_impervious","perc_tree_canopy","P_D2_PM25","P_D2_PTRAF","psps","all_environmental","redline","all_all","DISABILITY"))
 	
 
 	json.lists <- lapply(sort(unique(legend.dt$var_name)), function(j){
@@ -967,13 +965,8 @@ generate_map_variables <- function(FIPS.dt, USCB_TIGER.path, raster.path, geo.ye
 		
 
 	json.list <- list(legends=json.lists)
-
 	json.obj <- jsonlite::toJSON(json.list, pretty=TRUE, auto_unbox=TRUE)
 	json.obj <- paste0("const legend_specs = ",json.obj,";")
-	
-	
-	export_path <- "~/networkDrives/smb-share:server=naslocshare240,share=agencyshare/EmergencyEvents/2019_nCoV/SurvEpi/EpiData Unit Doc Ops/Reports/Maps/gmc_tests"
-	
 	js_file <- file.path(export_path,"legend-config2.js")
 	fileConn <- file(js_file)
 	writeLines(json.obj, fileConn)
