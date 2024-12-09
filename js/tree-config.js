@@ -6,12 +6,12 @@ var baseTree = {
             label: 'Environmental Variables',
 			name: 'all_environmental',
             children: [
-                { label: 'Impervious Surfaces', name: 'perc_impervious' },
-                { label: 'PM 2.5', name: 'PM25' },
-				{ label: 'PSPS Areas', name: 'psps' },
-				{ label: 'Redlined Areas', name: 'redline' },
-				{ label: 'Traffic Proximity', name: 'PTRAF' },
-				{ label: 'Tree Canopy', name: 'perc_tree_canopy' }
+                	{ label: 'Impervious Surfaces', name: 'perc_impervious' },
+                	{ label: 'PM 2.5', name: 'P_D2_PM25' },
+			{ label: 'PSPS Areas', name: 'psps' },
+			{ label: 'Redlined Areas', name: 'redline' },
+			{ label: 'Traffic Proximity', name: 'P_D2_PTRAF' },
+			{ label: 'Tree Canopy', name: 'perc_tree_canopy' }
             ]
         },
         {
