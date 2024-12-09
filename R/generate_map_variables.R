@@ -314,7 +314,7 @@ generate_EJSCREEN_table <- function(FIPS.dt) {
 	sub.dt2 <- epa.dt[var_name=="P_D2_PTRAF"]
 	my_brks <- quantile(sub.dt2$var_value, probs = seq(0, 1, length.out = 6), na.rm=TRUE)
 	sub.dt2[,var_weight := as.character(cut(var_value, my_brks, include.lowest=T, right = T, labels = FALSE))]
-	sub.dt2[,var_legend := cut(var_value, my_brks, include.lowest=T, right = T, labels=class.data(trimws(sprintf("%sM", format(round(my_brks/1000000, 1), dec="."))),NULL,""," - ",1))]
+	sub.dt2[,var_legend := cut(var_value, my_brks, include.lowest=T, right = T, labels=class.data(my_brks,2,"%"," - ",1))]
 
 	epa.dt <- rbindlist(list(sub.dt1,sub.dt2), use.names=TRUE, fill=TRUE)
 	rm(sub.dt1,sub.dt2)
