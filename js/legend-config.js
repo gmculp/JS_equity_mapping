@@ -617,23 +617,23 @@ const legend_specs = {
       "title": "Percentile for Traffic proximity EJ Index",
       "contents": [
         {
-          "label": "0.0M - 1.8M",
+          "label": "0% - 26%",
           "color": "#000052"
         },
         {
-          "label": ">1.8M - 2.9M",
+          "label": ">26% - 43%",
           "color": "#3A008C"
         },
         {
-          "label": ">2.9M - 4.3M",
+          "label": ">43% - 57%",
           "color": "#7800AB"
         },
         {
-          "label": ">4.3M - 6.0M",
+          "label": ">57% - 72%",
           "color": "#BF009F"
         },
         {
-          "label": ">6.0M - 14.1M",
+          "label": ">72% - 99%",
           "color": "#FF0080"
         }
       ]
