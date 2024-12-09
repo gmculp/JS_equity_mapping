@@ -535,8 +535,8 @@ const legend_specs = {
       ]
     },
     {
-      "var_name": "PM25",
-      "title": "Potential exposure to PM 2.5",
+      "var_name": "P_D2_PM25",
+      "title": "Percentile for Particulate Matter 2.5 EJ Index",
       "contents": [
         {
           "label": "7.53% - 9.91%",
@@ -613,8 +613,8 @@ const legend_specs = {
       ]
     },
     {
-      "var_name": "PTRAF",
-      "title": "Traffic proximity",
+      "var_name": "P_D2_PTRAF",
+      "title": "Percentile for Traffic proximity EJ Index",
       "contents": [
         {
           "label": "0.0M - 1.8M",
