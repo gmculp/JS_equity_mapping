@@ -539,23 +539,23 @@ const legend_specs = {
       "title": "Percentile for Particulate Matter 2.5 EJ Index",
       "contents": [
         {
-          "label": "7.53% - 9.91%",
+          "label": "0% - 16%",
           "color": "#000052"
         },
         {
-          "label": ">9.91% - 10.58%",
+          "label": ">16% - 25%",
           "color": "#3A008C"
         },
         {
-          "label": ">10.58% - 11.2%",
+          "label": ">25% - 36%",
           "color": "#7800AB"
         },
         {
-          "label": ">11.2% - 11.43%",
+          "label": ">36% - 47%",
           "color": "#BF009F"
         },
         {
-          "label": ">11.43% - 13.04%",
+          "label": ">47% - 80%",
           "color": "#FF0080"
         }
       ]
