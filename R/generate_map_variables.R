@@ -158,6 +158,9 @@ process_face_files <- function(FIPS.dt, USCB_TIGER.path, geo.year="2020") {
 
 
 calc_perc_from_raster <- function(test.r1, in.sf, my.var_name){
+	
+	###transform in projected coordinate system###
+	in.sf <- sf::st_transform(in.sf, 3857)
 
 	test.r1 <- crop(test.r1, ext(project(vect(st_as_sfc(st_bbox(in.sf))), crs(test.r1))))
 
@@ -216,7 +219,7 @@ calc_perc_from_raster <- function(test.r1, in.sf, my.var_name){
 	
 	dt.out <- dt.out[!is.na(GEOID)]
 
-	dt.out[,var_value := round((sub.area/total.area)*100)]
+	dt.out[,var_value := round((sub.area/total.area)*100,1)]
 	
 	dt.out[,c('sub.area','total.area') := NULL]
 	
