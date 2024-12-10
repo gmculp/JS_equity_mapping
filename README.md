@@ -7,4 +7,4 @@ At this point in time, the following R functions are available:
   
 * ```generate_map_variables.R```: Function to generate data at the USCB tract level from data sources available via API.
 
-* ```download_USCB_TIGER_files.R```: Function to generate spatial files in compact topojson format and merge to tabular data.
+* ```generate_USCB_spatial_file.R```: Function to generate tract spatial files in compact topojson format with option to merge to tabular data.
