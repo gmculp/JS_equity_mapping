@@ -38,6 +38,7 @@
 	  .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; color:white; color: rgba(255, 255, 255, 1.0); background: #777777; background: rgba(0,0,0,1.0); box-shadow: 0 0 15px rgba(255,255,255,0.2); border-radius: 5px; border:solid 1px rgba(255, 255, 255, 0.4);} 
 	  
 	.info h4 { margin: 0 0 0px 0; color: #FFFFFF; }
+	.info h5 { margin: 0 0 0px 0; color: #FFFFFF; }    
 	
 	.legend { text-align: left; line-height: 18px; color: #555; max-width: 250px;color: #FFFFFF; } 
 
@@ -125,7 +126,7 @@
 	
 	
 	//generate legends
-	function myLegend(zz, tt) {
+	function myLegend(zz, tt, tt2) {
 		return function(map) {
 
 			const div = L.DomUtil.create('div', 'info legend');
@@ -140,7 +141,7 @@
 			}
 			
 			labels.push('<i style="background:black"></i>' );
-			
+			labels.push("<h5>Data source: " + tt2 + "</h5>");
 			div.innerHTML = labels.join('<br>');
 			
 			return div;
@@ -160,11 +161,12 @@
 	for (var i = 0; i < leg_arr.length; i++) {
 	
 		var str = leg_arr[i].title;
+		var str2 = leg_arr[i].source;
 		var my_var = leg_arr[i].var_name;
 		
 		//generate legends
 		var legend = L.control({position: 'topright'});
-		legend.onAdd = myLegend(i,str);
+		legend.onAdd = myLegend(i,str,str2);
 		overlayLegends[my_var] = legend;
 		
 		//generate empty map layers
