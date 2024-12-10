@@ -3,6 +3,7 @@ const legend_specs = {
     {
       "var_name": "all_all",
       "title": "Index of variables that likely contribute to energy insecurity/energy burden",
+      "source": "2022 CDC BRFSS, 2022 USCB ACS5, 2021 USGS NLCD, 2021 PG&E PSPS, 2024 EPA EJSCREEN, 2023 University of Richmond DSL",
       "contents": [
         {
           "label": "very low vulnerability",
@@ -29,6 +30,7 @@ const legend_specs = {
     {
       "var_name": "all_environmental",
       "title": "All environmental variables",
+      "source": "2021 USGS NLCD, 2024 EPA EJSCREEN",
       "contents": [
         {
           "label": "very low vulnerability",
@@ -55,6 +57,7 @@ const legend_specs = {
     {
       "var_name": "all_health_dis",
       "title": "All health and disability variables",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "very low vulnerability",
@@ -81,6 +84,7 @@ const legend_specs = {
     {
       "var_name": "all_house_energy",
       "title": "All housing and energy variables",
+      "source": "2022 CDC BRFSS, 2022 USCB ACS5, 2021 PG&E PSPS, 2023 University of Richmond DSL",
       "contents": [
         {
           "label": "very low vulnerability",
@@ -107,6 +111,7 @@ const legend_specs = {
     {
       "var_name": "all_soc_dem",
       "title": "All sociodemographic variables",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "very low vulnerability",
@@ -133,6 +138,7 @@ const legend_specs = {
     {
       "var_name": "CANCER",
       "title": "Percentage of adults experiencing cancer (non-skin) or melanoma",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "1% - 4.8%",
@@ -159,6 +165,7 @@ const legend_specs = {
     {
       "var_name": "CASTHMA",
       "title": "Percentage of adults currently experiencing asthma",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "5.9% - 8.3%",
@@ -185,6 +192,7 @@ const legend_specs = {
     {
       "var_name": "CHD",
       "title": "Percentage of adults experiencing coronary heart disease",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "1% - 4.2%",
@@ -211,6 +219,7 @@ const legend_specs = {
     {
       "var_name": "child_hh",
       "title": "Percentage of households with young children (age <= 5 years)",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 3%",
@@ -237,6 +246,7 @@ const legend_specs = {
     {
       "var_name": "COPD",
       "title": "Percentage of adults experiencing chronic obstructive pulmonary disease",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "0.9% - 3.4%",
@@ -263,6 +273,7 @@ const legend_specs = {
     {
       "var_name": "cost_burden_50",
       "title": "Percentage of households where housing costs exceed 50% of household income",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 10%",
@@ -289,6 +300,7 @@ const legend_specs = {
     {
       "var_name": "crowd",
       "title": "Percentage of household with more than one occupants per room",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 1%",
@@ -315,6 +327,7 @@ const legend_specs = {
     {
       "var_name": "DIABETES",
       "title": "Percentage of adults diagnosed with diabetes",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "2% - 8.5%",
@@ -341,6 +354,7 @@ const legend_specs = {
     {
       "var_name": "DISABILITY",
       "title": "Percentage of adults with any disability",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "10.6% - 20.4%",
@@ -367,6 +381,7 @@ const legend_specs = {
     {
       "var_name": "home_pre_1960",
       "title": "Percentage of homes built before 1960",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 5%",
@@ -393,6 +408,7 @@ const legend_specs = {
     {
       "var_name": "lang",
       "title": "Percentage of people over 5 years of age who speak English less than \"very well\"",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 6%",
@@ -419,6 +435,7 @@ const legend_specs = {
     {
       "var_name": "low_edu",
       "title": "Percentage of adults with less than a high school diploma",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 3%",
@@ -445,6 +462,7 @@ const legend_specs = {
     {
       "var_name": "med_inc_60",
       "title": "Tract median income <= 60% county median income",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "at least 60% county-level median income",
@@ -459,6 +477,7 @@ const legend_specs = {
     {
       "var_name": "multi_unit",
       "title": "Percentage of households within multi unit dwellings",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 7%",
@@ -485,6 +504,7 @@ const legend_specs = {
     {
       "var_name": "perc_impervious",
       "title": "Percentage of tract area categorized as impervious surfaces",
+      "source": "2021 USGS NLCD",
       "contents": [
         {
           "label": "0% - 29.8%",
@@ -511,6 +531,7 @@ const legend_specs = {
     {
       "var_name": "perc_tree_canopy",
       "title": "Percentage of tract area categorized as tree canopy",
+      "source": "2021 USGS NLCD",
       "contents": [
         {
           "label": ">12% - 65%",
@@ -537,6 +558,7 @@ const legend_specs = {
     {
       "var_name": "P_D2_PM25",
       "title": "Percentile for Particulate Matter 2.5 EJ Index",
+      "source": "2024 EPA EJSCREEN",
       "contents": [
         {
           "label": "0% - 16%",
@@ -563,6 +585,7 @@ const legend_specs = {
     {
       "var_name": "poc",
       "title": "Percentage of population identifying as people of color (non white)",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "6% - 40%",
@@ -589,6 +612,7 @@ const legend_specs = {
     {
       "var_name": "psps",
       "title": "Percentage of tract area within PG&E Public safety power shut off areas",
+      "source": "2021 PG&E PSPS",
       "contents": [
         {
           "label": "0% - 7%",
@@ -615,6 +639,7 @@ const legend_specs = {
     {
       "var_name": "P_D2_PTRAF",
       "title": "Percentile for Traffic proximity EJ Index",
+      "source": "2024 EPA EJSCREEN",
       "contents": [
         {
           "label": "0% - 26%",
@@ -641,6 +666,7 @@ const legend_specs = {
     {
       "var_name": "redline",
       "title": "Percentage of tract area within historically redlined areas",
+      "source": "2023 University of Richmond DSL",
       "contents": [
         {
           "label": "1% - 6%",
@@ -667,6 +693,7 @@ const legend_specs = {
     {
       "var_name": "renter",
       "title": "Percentage of housing units that are renter-occupied",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "3% - 20%",
@@ -693,6 +720,7 @@ const legend_specs = {
     {
       "var_name": "senior_hh",
       "title": "Percentage of households with older adults (age >= 65 years)",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 21%",
@@ -719,6 +747,7 @@ const legend_specs = {
     {
       "var_name": "SHUTUTILITY",
       "title": "Percentage of househilds which experienced threat of utility services cutoff",
+      "source": "2022 CDC BRFSS",
       "contents": [
         {
           "label": "1.2% - 3.3%",
@@ -745,6 +774,7 @@ const legend_specs = {
     {
       "var_name": "single_hohh_dep",
       "title": "Percentage of households where head is single and living with dependents",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 7%",
@@ -771,6 +801,7 @@ const legend_specs = {
     {
       "var_name": "unemp",
       "title": "Percentage of civilian labor force experiencing unemployment",
+      "source": "2022 USCB ACS5",
       "contents": [
         {
           "label": "0% - 3%",
