@@ -132,7 +132,7 @@ sort_edges <- function(pairz, in.dt, f.node, t.node, in_clus=2){
 generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020", geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, input.file_name=NULL, in_clus=2, na_color = "#000000") {
 
 	
-	#if(!dir.exists(dirname("C:/some_dir/a.ext"))){
+	if(!dir.exists(output.path)){
 	
 		stop("\nOutput file path does not exist. File will not be saved.\n")
 	} 
