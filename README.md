@@ -15,7 +15,7 @@ Here is an R code sample for generating spatial data and supporting files for a 
 ```
 gh_path <- 'https://raw.githubusercontent.com/gmculp/JS_equity_mapping/refs/heads/main'
 source(file.path(gh_path,"R/download_USCB_TIGER_files.R"))
-source(file.path(source("R/generate_map_variables.R"))
+source(file.path(gh_path,"R/generate_map_variables.R"))
 
 ###specify place to store USCB TIGER files###
 USCB_TIGER.path <- "C:/map_resources/census_files"
