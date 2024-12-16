@@ -8,7 +8,6 @@ library(geos)
 library(sf)
 library(igraph)
 library(geojsonio)
-library(foreign)
 
 data.table::setDTthreads(1)
 
