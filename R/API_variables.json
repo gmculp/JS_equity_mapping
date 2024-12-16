@@ -1,5 +1,6 @@
 {
 "color_palette": ["#000052","#3A008C","#7800AB","#BF009F","#FF0080"],	
+"NA_color": "#33333300",
 "group_info": {
 	"variable_name":  "all_all",
 	"variable_label": "Electrification Equity Index",
