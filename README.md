@@ -47,7 +47,8 @@ for(f_path in f_paths) {
 ###load JSON file containing data and map specs###
 specs <- fromJSON(file.path(gh_path,'R/API_variables.json'), simplifyVector = FALSE)
 
-###you can change the default specs to suit your region###
+###you can change the default specs to suit your region either mannually in a text editor...###
+###...or programmatically in R###
 ###remove old energy cost variable###
 n1 <- which(sapply(specs$data_sources$CDC, FUN=function(X) X$survey == "BRFSS"))
 n2 <- which(sapply(specs$data_sources$CDC[[n1]]$members, FUN=function(X) X$variable_name == "SHUTUTILITY"))
