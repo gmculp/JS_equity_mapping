@@ -4,7 +4,6 @@ options(scipen = 999)
 
 ###load packages###
 library(data.table)
-library(censusapi)
 library(geos)
 library(sf)
 library(igraph)
@@ -13,9 +12,26 @@ library(foreign)
 
 data.table::setDTthreads(1)
 
+mycensuskey <-"2ca0b2830ae4835905efab6c35f8cd2b3f570a8a"
+
 ########################################################
 ###function using igraph to sort linestrings by nodes###
 ########################################################
+
+USCB_API <- function(FIPS.dt, my.survey, my.vintage, my.vars, my.region="tract"){
+	
+	rbindlist(lapply(1:nrow(FIPS.dt), function(x) {
+		my.URL <- paste0(file.path("https://api.census.gov/data",my.vintage,my.survey),'?get=',paste(unique(my.vars),collapse=","),'&for=',my.region,':*','&in=state:',FIPS.dt[x]$state,'+county:',FIPS.dt[x]$county,'&key=',mycensuskey)
+	
+		req <- httr::GET(URLencode(my.URL))
+		m <- fromJSON(httr::content(req,"text"))
+		t.dt <- as.data.table(m[2:nrow(m),,drop=FALSE])
+		setnames(t.dt,names(t.dt),m[1,])
+		t.dt[, (my.vars) := lapply(.SD, as.numeric), .SDcols = my.vars]	
+		
+		return(t.dt) 
+	}))
+}
 
 ###recursive graphing function###
 r.ig_dt <- function(in.dt, t) {
@@ -113,7 +129,13 @@ sort_edges <- function(pairz, in.dt, f.node, t.node, in_clus=2){
 
 
 
-generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020", geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.file_name, input.file_name=NULL, in_clus=2, na_color = "#000000") {
+generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020", geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, input.file_name=NULL, in_clus=2, na_color = "#000000") {
+
+	
+	#if(!dir.exists(dirname("C:/some_dir/a.ext"))){
+	
+		stop("\nOutput file path does not exist. File will not be saved.\n")
+	} 
 
 
 	if(as.character(geo.year)=="2010") {
@@ -303,8 +325,6 @@ generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020"
 	###remove unpopulated contiguous land masses###
 	###############################################
 
-	mycensuskey <-"2ca0b2830ae4835905efab6c35f8cd2b3f570a8a"
-
 	if(as.character(geo.year)=="2010") {
 		my.survey <- "dec/sf1"
 		my.vars <- c("P001001")
@@ -315,12 +335,7 @@ generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020"
 		my.vintage <- 2020
 	}
 
-	api.data_cb <- rbindlist(lapply(1:nrow(FIPS.dt), function(x) as.data.table(getCensus(name = my.survey,
-		vintage = my.vintage,
-		key = mycensuskey,
-		vars = my.vars,
-		region = "block:*",
-		regionin = paste0("state:",FIPS.dt[x]$state,"+county:",FIPS.dt[x]$county)))))
+	api.data_cb <- USCB_API(FIPS.dt, my.survey, my.vintage, my.vars, my.region="block")
 
 	api.data_cb[,USCB_block := paste0(state,county,tract,block)]
 	api.data_cb[,USCB_tract:= paste0(state,county,tract)]
@@ -338,12 +353,7 @@ generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020"
 	}
 
 
-	api.data_ct <- rbindlist(lapply(1:nrow(FIPS.dt), function(x) as.data.table(getCensus(name = my.survey,
-		vintage = my.vintage,
-		key = mycensuskey,
-		vars = my.vars,
-		region = "tract:*",
-		regionin = paste0("state:",FIPS.dt[x]$state,"+county:",FIPS.dt[x]$county)))))
+	api.data_ct <- USCB_API(FIPS.dt, my.survey, my.vintage, my.vars, my.region="tract")
 		
 	api.data_ct[,USCB_tract:= paste0(state,county,tract)]	
 	setnames(api.data_ct,my.vars,c("USCB_pop"))
@@ -668,13 +678,10 @@ generate_USCB_spatial_file <- function(FIPS_dt, USCB_TIGER.path, geo.year="2020"
 	#st_write(out.sf, file.path(getwd(), 'topo_test',paste0(geo.type,"_",unique(FIPS.dt$state),"_",geo.year) ,paste0(geo.type,"_",unique(FIPS.dt$state),"_",geo.year,".shp")), overwrite=T, append=FALSE) 
 	
 	
-	
-	
-	
-	topojson_write(input = out.sf, object_name = paste0(geo.type,"_",geo.year), crs = 4326, file=output.file_name, quantization=10000)
+	topojson_write(input = out.sf, object_name = paste0(geo.type,"_",geo.year), crs = 4326, file=file.path(output.path,paste0(geo.type,"_",geo.year,".topojson")), quantization=10000)
 	
 	###read in newly generated topojson file as sf object###
-	#topo.sf <- topojson_read(output.file_name)
+	#topo.sf <- topojson_read(output.path)
 	
 	###uncomment to preview###
 	#plot(st_geometry(topo.sf), col='gold')
