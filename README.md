@@ -11,10 +11,11 @@ At this point in time, the following R functions are available:
 
 
           
-Here is an R code sample for generating spatial data and supporting files for a Leaflet map of the Bay Area:
+Here is an R code sample for generating spatial data and supporting files for a Leaflet map of the five boroughs of New York City with custom settings:
 ```
-source("R/download_USCB_TIGER_files.R")
-source("R/generate_map_variables.R")
+gh_path <- 'https://raw.githubusercontent.com/gmculp/JS_equity_mapping/refs/heads/main'
+source(file.path(gh_path,"R/download_USCB_TIGER_files.R"))
+source(file.path(source("R/generate_map_variables.R"))
 
 ###specify place to store USCB TIGER files###
 USCB_TIGER.path <- "C:/map_resources/census_files"
@@ -40,7 +41,25 @@ for(f_path in f_paths) {
 }
 
 ###load JSON file containing data and map specs###
-specs <- fromJSON("R/API_variables.json", simplifyVector = FALSE)
+specs <- fromJSON(file.path(gh_path,'R/API_variables.json'), simplifyVector = FALSE)
 
 ###you can change the default specs to suit your region###
+###remove old energy cost variable###
+n1 <- which(sapply(specs$data_sources$CDC, FUN=function(X) X$survey == "BRFSS"))
+n2 <- which(sapply(specs$data_sources$CDC[[n1]]$members, FUN=function(X) X$variable_name == "SHUTUTILITY"))
+specs$data_sources$CDC[[n1]]$members[[n2]] <- NULL
+	
+###add new energy cost variable###
+n1 <- which(sapply(specs$data_sources$USCB, FUN=function(X) X$survey == "ACS5"))
+n2 <- length(specs$data_sources$USCB[[n1]]$members)+1
+	
+specs$data_sources$USCB[[n1]]$members[[n2]] <- 
+list(variable_name="energy_cost", 
+	variable_label="Energy Cost",
+	title="Percentage of income spent on energy costs",
+	group="house_energy",
+	variables=lapply(c("B19025_001E", "B25032_001E", "B25032_003E", paste0("B25132_00",4:9,"E"), paste0("B25133_00",4:9,"E"), paste0("B25135_00",4:6,"E")),function(j) j),
+	formula="round(((12*((49 * B25132_004E)+(99 * B25132_005E)+(149 * B25132_006E)+(199 * B25132_007E)+(249 * B25132_008E)+(300 * B25132_009E)+(24 * B25133_004E)+(49 * B25133_005E)+(74 * B25133_006E)+(99 * B25133_007E)+(149 * B25133_008E)+(200 * B25133_009E)+(249 * B25135_004E)+(749 * B25135_005E)+(1000 * B25135_006E)))/B19025_001E)*100,2)"
+)
+
 
