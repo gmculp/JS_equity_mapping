@@ -71,6 +71,7 @@ list(variable_name="energy_cost",
 export.path <- "C:/map_resources/Leaflet_files/NYC"
 
 ###generate table containing variables by tract GEOID and JS files for legend and layer controls###
-generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, export.path, in_clus = 20)
+generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, output.path, in_clus = 20)
 
 ###generate topojson enriched with variable data###
+generate_USCB_spatial_file(FIPS.dt, USCB_TIGER.path, geo.year, geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, input.file_name=file.path(output.path,"map_variables.txt"), in_clus=20, na_color = specs$NA_color)
