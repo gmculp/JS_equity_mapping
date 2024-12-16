@@ -23,10 +23,13 @@ USCB_TIGER.path <- "C:/map_resources/census_files"
 ###specify data table containing state and county FIPS codes###
 FIPS.dt <- data.table(state=rep("36",5),county=c("061","005","047","081","085"))
 
+###specify vintage of tract geographies (e.g., 2010, 2020)###
+geo.year <- "2020"
+
 ###automatically download all necessary files from USCB TIGER website###
 ###you will only have to do this once for each decennial census year###
 ###for 2020###
-download_USCB_TIGER_files(FIPS.dt,USCB_TIGER.path,"2020")
+download_USCB_TIGER_files(FIPS.dt,USCB_TIGER.path,geo.year)
 
 ###download NLCD Land Use raster files###
 ###future upgrade: pull tiles directly from geoserver to omit this step###
@@ -62,4 +65,10 @@ list(variable_name="energy_cost",
 	formula="round(((12*((49 * B25132_004E)+(99 * B25132_005E)+(149 * B25132_006E)+(199 * B25132_007E)+(249 * B25132_008E)+(300 * B25132_009E)+(24 * B25133_004E)+(49 * B25133_005E)+(74 * B25133_006E)+(99 * B25133_007E)+(149 * B25133_008E)+(200 * B25133_009E)+(249 * B25135_004E)+(749 * B25135_005E)+(1000 * B25135_006E)))/B19025_001E)*100,2)"
 )
 
+###specify place to store files for Leaflet###
+export.path <- "C:/map_resources/Leaflet_files/NYC"
 
+###generate table containing variables by tract GEOID and JS files for legend and layer controls###
+generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, export.path, in_clus = 20)
+
+###generate topojson enriched with variable data###
