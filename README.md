@@ -68,7 +68,7 @@ list(variable_name="energy_cost",
 )
 
 ###specify place to store files for Leaflet###
-export.path <- "C:/map_resources/Leaflet_files/NYC"
+output.path <- "C:/map_resources/Leaflet_files/NYC"
 
 ###generate table containing variables by tract GEOID and JS files for legend and layer controls###
 generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, output.path, in_clus = 20)
