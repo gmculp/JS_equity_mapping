@@ -544,7 +544,11 @@ generate_USCB_table <- function(FIPS.dt,spec){
 }
 
 
-generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, export_path, in_clus = 2) ){
+generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, output.path, in_clus = 2) {
+
+	if(!dir.exists(output.path)){
+		stop("\nOutput file path does not exist. File will not be saved.\n")
+	} 
 
 	
 	###generate shapefile for variable calculations that incolve spatial joins###
@@ -593,6 +597,7 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 
 	###add symbology information###
 	col.pal <- unlist(specs$color_palette)
+	na_col <- specs$NA_color
 	
 	colz.dt <- data.table(var_weight=as.character(1:length(col.pal)),col=col.pal)
 	
@@ -600,7 +605,7 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	
 	out.dt <- merge(out.dt,colz.dt,by="var_weight",all.x=TRUE)
 	
-	out.dt[,col := ifelse(is.na(col),'#33333300',col)]
+	out.dt[,col := ifelse(is.na(col),na_col,col)]
 	
 	setorder(out.dt,GEOID,var_name)
 	
@@ -666,7 +671,7 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	json.obj <- jsonlite::toJSON(json.obj, pretty=TRUE, auto_unbox=TRUE)
 	json.obj <- paste0("var baseTree = ",json.obj,";")
 	
-	js_file <- file.path(export_path,"tree-config.js")
+	js_file <- file.path(output.path,"tree-config.js")
 	fileConn <- file(js_file)
 	writeLines(json.obj, fileConn)
 	close(fileConn)
@@ -692,7 +697,7 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	json.obj <- jsonlite::toJSON(json.list, pretty=TRUE, auto_unbox=TRUE)
 	json.obj <- paste0("const legend_specs = ",json.obj,";")
 	
-	js_file <- file.path(export_path,"legend-config.js")
+	js_file <- file.path(output.path,"legend-config.js")
 	fileConn <- file(js_file)
 	writeLines(json.obj, fileConn)
 	close(fileConn)
@@ -702,13 +707,13 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	###transpose map data table###
 	out.dt <- dcast(out.dt, GEOID ~ var_name, value.var = "col")
 	out.dt <- melt(out.dt, id=c("GEOID"), variable.name = "var_name", variable.factor = FALSE)
-	out.dt[,value := ifelse(is.na(value),'#33333300',value)]
+	out.dt[,value := ifelse(is.na(value),na_col,value)]
 	out.dt <- dcast(out.dt, GEOID ~ var_name, value.var = "value")
 	out.dt <- out.dt[,c('GEOID',sort(names(out.dt)[!names(out.dt) %in% c('GEOID')])),with=FALSE]
 	setorder(out.dt,GEOID)
 	
 	
 	###export data for map as txt file###
-	fwrite(out.dt, file = file.path(export_path,"map_variables.txt"), row.names=FALSE, append = FALSE, quote = TRUE, nThread=1)
+	fwrite(out.dt, file = file.path(output.path,"map_variables.txt"), row.names=FALSE, append = FALSE, quote = TRUE, nThread=1)
 	
 }
