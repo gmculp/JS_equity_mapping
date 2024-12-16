@@ -5,11 +5,23 @@ At this point in time, the following R functions are available:
 
 * ```download_USCB_TIGER_files.R```: Function to download necessary files from USCB TIGER website. *Note that if you are using this code from within an organization's firewall, the USCB TIGER website (https://www2.census.gov/geo/tiger) may need to be whitelisted.*
   
-* ```generate_map_variables.R```: Function to generate data at the USCB tract level from data sources available via API.
+* ```generate_map_variables.R```: Function to generate data at the USCB tract level from data sources available via API. This function also generates JS files utilized by Leaflet's legend and layer controls.
 
 * ```generate_USCB_spatial_file.R```: Function to generate tract spatial files in compact topojson format with option to merge to tabular data.
 
+Required packages that must be installed to run this code:
 
+* ```data.table```: for handling large data.frames more efficiently
+
+* ```geos```: for processing large scale geometry collections
+
+* ```sf```: for reading in shapefiles and performing spatial processes
+
+* ```terra```: for reading in and processing raster data
+
+* ```jsonlite```: for processing JSON from the USCB geocoding API
+
+* ```igraph```: for collapsing directional multipart polylines in edges files into single part polylines
           
 Here is an R code sample for generating spatial data and supporting files for a Leaflet map of the five boroughs of New York City with custom settings:
 ```
