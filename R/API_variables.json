@@ -1,0 +1,281 @@
+{
+"color_palette": ["#000052","#3A008C","#7800AB","#BF009F","#FF0080"],	
+"group_info": {
+	"variable_name":  "all_all",
+	"variable_label": "Electrification Equity Index",
+	"title": "Index of variables that likely contribute to energy insecurity/energy burden",
+	"groups":[
+		{
+			"variable_name":  "all_health_dis",
+			"variable_label": "Health & Disability Variables",
+			"title": "All health and disability variables",
+			"group": "health_dis"
+		},
+		{
+			"variable_name":  "all_soc_dem",
+			"variable_label": "Sociodemographic Variables",
+			"title": "All sociodemographic variables",
+			"group": "soc_dem"
+		},
+		{
+			"variable_name":  "all_environmental",
+			"variable_label": "Environmental Variables",
+			"title": "All environmental variables",
+			"group": "environmental"
+		},
+		{
+			"variable_name":  "all_house_energy",
+			"variable_label": "Housing & Energy Variables",
+			"title": "All housing and energy variables",
+			"group": "house_energy"
+		}
+	]
+},
+"data_sources": {
+	"USCB": [{
+		"survey": "ACS5",
+		"vintage": "2023",
+		"URL": "https://api.census.gov/data/2023/acs/acs5",
+		"members":[
+			{
+				"variable_name":  "senior_hh",
+				"variable_label": "Older Adults",
+				"title": "Percentage of households with older adults (age >= 65 years)",
+				"group": "soc_dem",
+				"variables": ["B11007_001E","B11007_002E"],
+				"formula": "round((B11007_002E/B11007_001E)*100)"
+			}, 
+			{
+				"variable_name":  "child_hh",
+				"variable_label": "Young Children",
+				"title": "Percentage of households with young children (age <= 5 years)",
+				"group": "soc_dem",
+				"variables": ["B25012_001E","B25012_005E","B25012_013E"],
+				"formula": "round(((B25012_005E + B25012_013E)/B25012_001E)*100)"
+			}, 
+			{
+				"variable_name":  "poc",
+				"variable_label": "People of Color",
+				"title": "Percentage of population identifying as people of color (non white)",
+				"group": "soc_dem",
+				"variables": ["B01001_001E","B01001H_001E"],
+				"formula": "round((1 - (B01001H_001E/B01001_001E))*100)"
+			}, 
+			{
+				"variable_name":  "lang",
+				"variable_label": "Linguistic Isolation",
+				"title": "Percentage of people over 5 years of age who speak English less than 'very well'",
+				"group": "soc_dem",
+				"variables": ["B06007_001E","B06007_005E","B06007_008E"],
+				"formula": "round(((B06007_005E + B06007_008E)/B06007_001E)*100)"
+			}, 
+			{
+				"variable_name":  "low_edu",
+				"variable_label": "Limited Education",
+				"title": "Percentage of adults with less than a high school diploma",
+				"group": "soc_dem",
+				"variables": ["B06009_001E","B06009_002E"],
+				"formula": "round((B06009_002E/B06009_001E)*100)"
+			}, 
+			{
+				"variable_name":  "unemp",
+				"variable_label": "Unemployment",
+				"title": "Percentage of civilian labor force experiencing unemployment",
+				"group": "soc_dem",
+				"variables": ["B23025_003E","B23025_005E"],
+				"formula": "round((B23025_005E/B23025_003E)*100)"
+			},
+			{
+				"variable_name":  "med_inc_60",
+				"variable_label": "Low Median Income",
+				"title": "Tract median income <= 60% county median income",
+				"legend_base": "60% county-level median income",
+				"group": "soc_dem",
+				"variable": "B06011_001E",
+				"county_threshold": 60
+			},
+			{
+				"variable_name":  "home_pre_1960",
+				"variable_label": "Older Homes",
+				"title": "Percentage of homes built before 1960",
+				"group": "house_energy",
+				"variables": ["B25034_001E","B25034_009E","B25034_010E","B25034_011E"],
+				"formula": "round(((B25034_009E + B25034_010E + B25034_011E)/B25034_001E)*100)"
+			},
+			{
+				"variable_name":  "cost_burden_50",
+				"variable_label": "Housing Cost Burden",
+				"title": "Percentage of households where housing costs exceed 50% of household income",
+				"group": "house_energy",
+				"variables": ["B25140_001E","B25140_004E","B25140_008E","B25140_012E"],
+				"formula": "round(((B25140_004E + B25140_008E + B25140_012E)/B25140_001E)*100)"
+			},
+			{
+				"variable_name":  "multi_unit",
+				"variable_label": "Multi Unit Dwellings",
+				"title": "Percentage of households within multi unit dwellings",
+				"group": "house_energy",
+				"variables": ["B25032_001E","B25032_003E","B25032_004E","B25032_014E","B25032_015E"],
+				"formula": "round((1.00 - ((B25032_003E + B25032_004E + B25032_014E + B25032_015E)/B25032_001E))*100)"
+			},
+			{
+				"variable_name":  "renter",
+				"variable_label": "Renters",
+				"title": "Percentage of housing units that are renter-occupied",
+				"group": "house_energy",
+				"variables": ["B25032_001E","B25032_013E"],
+				"formula": "round((B25032_013E/B25032_001E)*100)"
+			},
+			{
+				"variable_name":  "single_hohh_dep",
+				"variable_label": "Single HoH",
+				"title": "Percentage of households where head is single and living with dependents",
+				"group": "house_energy",
+				"variables": ["B11012_001E","B11012_010E","B11012_011E","B11012_015E","B11012_016E"],
+				"formula": "round(((B11012_010E + B11012_011E + B11012_015E + B11012_016E)/B11012_001E)*100)"
+			},
+			{
+				"variable_name":  "crowd",
+				"variable_label": "Crowding",
+				"title": "Percentage of household with more than one occupants per room",
+				"group": "house_energy",
+				"variables": ["B25014_001E","B25014_003E","B25014_004E","B25014_009E","B25014_010E"],
+				"formula": "round((1 - ((B25014_003E + B25014_004E + B25014_009E + B25014_010E)/B25014_001E))*100)"
+			}
+		]
+	}],
+	"CDC": [{
+		"survey": "BRFSS",
+		"vintage": "2022",
+		"URL": "https://data.cdc.gov/resource/cwsq-ngmh.json",
+		"members":[
+			{
+				"variable_name": "SHUTUTILITY",
+				"variable_label": "Utility Insecurity",
+				"title": "Percentage of househilds which experienced threat of utility services cutoff",
+				"group": "house_energy",
+				"variable": "SHUTUTILITY"
+			},
+			{
+				"variable_name":  "CHD",
+				"variable_label": "Heart Disease",
+				"title": "Percentage of adults experiencing coronary heart disease",
+				"group": "health_dis",
+				"variable": "CHD"
+			},
+			{
+				"variable_name":  "COPD",
+				"variable_label": "COPD",
+				"title": "Percentage of adults experiencing chronic obstructive pulmonary disease",
+				"group": "health_dis",
+				"variable": "COPD"
+			},
+			{
+				"variable_name":  "DIABETES",
+				"variable_label": "Diabetes",
+				"title": "Percentage of adults diagnosed with diabetes",
+				"group": "health_dis",
+				"variable": "DIABETES"
+			},
+			{
+				"variable_name":  "CANCER",
+				"variable_label": "Cancer",
+				"title": "Percentage of adults experiencing cancer (non-skin) or melanoma",
+				"group": "health_dis",
+				"variable": "CANCER"
+			},
+			{
+				"variable_name":  "CASTHMA",
+				"variable_label": "Asthma",
+				"title": "Percentage of adults currently experiencing asthma",
+				"group": "health_dis",
+				"variable": "CASTHMA"
+			},
+			{
+				"variable_name":  "DISABILITY",
+				"variable_label": "Disability",
+				"title": "Percentage of adults with any disability",
+				"group": "health_dis",
+				"variable": "DISABILITY"
+			}
+		]
+	}],
+	"EPA": [{
+		"survey": "EJSCREEN",
+		"vintage": "2023",
+		"URL": "https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/EJScreen_StatePctiles_with_AS_CNMI_GU_VI_Tracts/FeatureServer/0",
+		"members":[
+			{
+				"variable_name":  "P_D2_PTRAF",
+				"variable_label": "Traffic Proximity",
+				"title": "Percentile for Traffic proximity EJ Index",
+				"group": "environmental",
+				"variable": "P_D2_PTRAF"
+			},
+			{
+				"variable_name":  "P_D2_PM25",
+				"variable_label": "PM 2.5",
+				"title": "Percentile for Particulate Matter 2.5 EJ Index",
+				"group": "environmental",
+				"variable": "P_D2_PM25"
+			}
+		]
+	}],
+	"ESRI": [{
+		"survey": "PG&E PSPS",
+		"vintage": "2021",
+		"URL": "https://services2.arcgis.com/mJaJSax0KPHoCNB6/ArcGIS/rest/services/PROD_PSPS_GDB_WGS84_WebMercator_PSPS_PLANNINGAREA_2021/FeatureServer/0",
+		"members":[
+			{
+				"variable_name": "psps",
+				"variable_label": "PSPS Areas",
+				"title": "Percentage of tract area within PG&E Public safety power shut off areas",
+				"group": "environmental",
+				"formula": "1=1"
+			}
+		]
+	},
+	{
+		"survey": "University of Richmond DSL",
+		"vintage": "2023",
+		"URL": "https://services.arcgis.com/ak2bo87wLfUpMrt1/ArcGIS/rest/services/MappingInequalityRedliningAreas_231211/FeatureServer/0",
+		"members":[
+			{
+				"variable_name": "redline",
+				"variable_label": "Redlined Areas",
+				"title": "Percentage of tract area within historically redlined areas",
+				"group": "environmental",
+				"formula": "grade='D'"
+			}
+		]
+	}],
+	"MRLC": [{
+		"survey": "NLCD",
+		"vintage": "2021",
+		"URL": "https://www.mrlc.gov/geoserver/mrlc_display/NLCD_2021_Impervious_L48/wms",
+		"file":"nlcd_2021_impervious_l48_20230630.img",
+		"members":[
+			{
+				"variable_name": "perc_impervious",
+				"variable_label": "Impervious Surfaces",
+				"title": "Percentage of tract area categorized as impervious surfaces",
+				"group": "environmental"
+			}
+		]
+	},
+	{
+		"survey": "NLCD",
+		"vintage": "2021",
+		"URL": "https://www.mrlc.gov/geoserver/mrlc_display/nlcd_tcc_conus_2021_v2021-4/wms",
+		"file": "nlcd_tcc_conus_2021_v2021-4.tif",
+		"members":[
+			{
+				"variable_name": "perc_tree_canopy",
+				"variable_label": "Tree Canopy",
+				"title": "Percentage of tract area categorized as tree canopy",
+				"group": "environmental"
+			}
+		]
+	}]
+}
+}
