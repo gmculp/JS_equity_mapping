@@ -11,7 +11,7 @@ At this point in time, the following R functions are available:
 
 * ```generate_USCB_spatial_file.R```: Function to generate tract spatial files in compact topojson format with option to merge to tabular data.
 
-
+### R functions
 Required packages that must be installed to run this code:
 
 * ```data.table```: for handling large data.frames more efficiently
