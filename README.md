@@ -3,6 +3,7 @@
 ## Description
 This repository contains functions for generating vulnerability data using R and visualizing it on a Leaflet interactive web map using JavaScript.  It is a work in progress (in other words, there are likely some bugs) and will be updated reglarly. 
 
+THe following maps were produced using resources available in this repository:
 [Bay Area Home Electrification Equity Project (HEEP) Map](https://gmculp.github.io/JS_equity_mapping/web_maps/BayAreaHEEP.html)
 
 ## R component
