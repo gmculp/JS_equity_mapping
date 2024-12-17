@@ -9,6 +9,7 @@ At this point in time, the following R functions are available:
 
 * ```generate_USCB_spatial_file.R```: Function to generate tract spatial files in compact topojson format with option to merge to tabular data.
 
+
 Required packages that must be installed to run this code:
 
 * ```data.table```: for handling large data.frames more efficiently
@@ -22,7 +23,8 @@ Required packages that must be installed to run this code:
 * ```jsonlite```: for processing JSON from the USCB geocoding API
 
 * ```igraph```: for collapsing directional multipart polylines in edges files into single part polylines
-          
+
+	  
 Here is an R code sample for generating spatial data and supporting files for a Leaflet map of the five boroughs of New York City with custom settings:
 ```
 gh_path <- 'https://raw.githubusercontent.com/gmculp/JS_equity_mapping/refs/heads/main'
