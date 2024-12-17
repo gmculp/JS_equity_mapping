@@ -669,6 +669,10 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	
 	json.obj <- parent_recursion(s.dt[is.na(parent)]$var_name)
 	json.obj <- jsonlite::toJSON(json.obj, pretty=TRUE, auto_unbox=TRUE)
+	json.obj <- gsub('"label":','label:',json.obj)
+	json.obj <- gsub('"name":','name:',json.obj)
+	json.obj <- gsub('"children":','children:',json.obj)
+	json.obj <- substr(json.obj,2,nchar(json.obj)-2)
 	json.obj <- paste0("var baseTree = ",json.obj,";")
 	
 	js_file <- file.path(output.path,"tree-config.js")
