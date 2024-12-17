@@ -1,5 +1,4 @@
-var baseTree = [
-  {
+var baseTree =  {
     "label": "Electrification Equity Index",
     "name": "all_all",
     "children": [
@@ -128,5 +127,4 @@ var baseTree = [
         ]
       }
     ]
-  }
-];
+  };
