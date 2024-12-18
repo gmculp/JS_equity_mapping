@@ -86,8 +86,12 @@ list(variable_name="energy_cost",
 	title="Percentage of income spent on energy costs",
 	group="house_energy",
 	variables=lapply(c("B19025_001E", "B25032_001E", "B25032_003E", paste0("B25132_00",4:9,"E"), paste0("B25133_00",4:9,"E"), paste0("B25135_00",4:6,"E")),function(j) j),
-	formula="round(((12*((49 * B25132_004E)+(99 * B25132_005E)+(149 * B25132_006E)+(199 * B25132_007E)+(249 * B25132_008E)+(300 * B25132_009E)+(24 * B25133_004E)+(49 * B25133_005E)+(74 * B25133_006E)+(99 * B25133_007E)+(149 * B25133_008E)+(200 * B25133_009E)+(249 * B25135_004E)+(749 * B25135_005E)+(1000 * B25135_006E)))/B19025_001E)*100,2)"
-)
+	formula="round(((12*((49 * B25132_004E)+(99 * B25132_005E)+(149 * B25132_006E)+(199 * B25132_007E)+(249 * B25132_008E)+(300 * B25132_009E)+(24 * B25133_004E)+(49 * B25133_005E)+(74 * B25133_006E)+(99 * B25133_007E)+(149 * B25133_008E)+(200 * B25133_009E)+(249 * B25135_004E)+(749 * B25135_005E)+(1000 * B25135_006E)))/B19025_001E)*100,2)",
+	order="asc"
+) 
+
+###switch to viridis palette###
+specs$color_palette <- lapply(viridis::viridis_pal(option = "B")(9)[3:7],function(j) j)
 
 ###specify place to store files for Leaflet###
 output.path <- "C:/map_resources/Leaflet_files/NYC"
