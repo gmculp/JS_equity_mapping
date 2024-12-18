@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bay Area Electrification Map</title>
+    
+    <!--add Leaflet CSS-->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+	 
+	 <link href="https://cdn.jsdelivr.net/npm/leaflet.control.layers.tree@1.1.0/L.Control.Layers.Tree.min.css" rel="stylesheet">
+	
+    <!--our own style rules-->
+    <style type="text/css">
+	 
+      body, html {
+        height: 100%;
+		background-color: black;
+		margin: 0 0 0px 0;
+      }
+      #map-container {
+        height: 98%;
+      }
+	  
+	  .leaflet-layer {
+		filter: grayscale(100%) invert(100%);
+	  }
+	  
+	  .leaflet-control-layers {
+		text-wrap: pretty;
+		width: 250px;
+		
+	  }
+	  
+	  .leaflet-control-zoom a:hover {background-color: white; color: black;}
+	  .leaflet-control-zoom a { background-color: black; color: white; border:solid 1px rgba(255, 255, 255, 0.4);}
+	  .leaflet-control-zoom a:last-child {border-bottom:solid 1px rgba(255, 255, 255, 0.4) !important;}
+	  
+	  .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; color:white; color: rgba(255, 255, 255, 1.0); background: #777777; background: rgba(0,0,0,1.0); box-shadow: 0 0 15px rgba(255,255,255,0.2); border-radius: 5px; border:solid 1px rgba(255, 255, 255, 0.4);} 
+	  
+	.info h4 { margin: 0 0 0px 0; color: #FFFFFF; }
+	.info h5 { margin: 0 0 0px 0; color: #FFFFFF; }
+	
+	.legend { text-align: left; line-height: 18px; color: #555; max-width: 250px;color: #FFFFFF; } 
+
+	.legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+	
+	.leaflet-control-layers-expanded { background: #000000; color:white; color: rgba(255, 255, 255, 1.0); border:solid 1px rgba(255, 255, 255, 0.1) !important;}
+	
+	.legend .circle {
+	  border-radius: 50%;
+	  width: 15px;
+	  height: 15px;
+	  margin-top: 2px;
+	}
+	  
+    </style>
+  </head>
+  <body>
+    
+    <!--The div in which the map will be created-->
+    <div id="map-container"></div>
+	
+	
+	<!--<script type="text/javascript" src="../js/legend-config.js"></script>-->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/gmculp/JS_equity_mapping@main/js/NYC_legend-config.js"></script>
+	
+	<!--<script type="text/javascript" src="../js/tree-config.js"></script>-->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/gmculp/JS_equity_mapping@main/js/NYC_tree-config.js"></script>
+    
+    <!--load leaflet.js-->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!--we need the topojson library as well-->
+    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/leaflet.control.layers.tree@1.1.0/L.Control.Layers.Tree.min.js"></script>
+	
+	 <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
+
+    <!-- Load Esri Leaflet Vector from CDN -->
+    <script src="https://unpkg.com/esri-leaflet-vector@4.2.4/dist/esri-leaflet-vector.js" crossorigin=""></script>
+	
+	<!-- Include spin.js -->
+    <script src="https://cdn.jsdelivr.net/spinjs/1.3.0/spin.min.js"></script>
+    
+	
+    <script>
+	
+	//add map container
+	let map = L.map('map-container', {attributionControl: false});
+    map.setView([37.8, -122.4], 7);
+	map.removeControl( map.zoomControl );
+	
+	//add spinner
+	var target = document.getElementById('map-container');
+	spinner = new Spinner().spin(target); 
+	 
+	 
+	//extend Leaflet to create a GeoJSON layer from a TopoJSON file
+      L.TopoJSON = L.GeoJSON.extend({
+        addData: function (data) {
+          var geojson, key;
+          if (data.type === "Topology") {
+            for (key in data.objects) {
+              if (data.objects.hasOwnProperty(key)) {
+                geojson = topojson.feature(data, data.objects[key]);
+                L.GeoJSON.prototype.addData.call(this, geojson);
+              }
+            }
+            return this;
+          }
+          L.GeoJSON.prototype.addData.call(this, data);
+          return this;
+        }
+      });
+	  
+      L.topoJson = function (data, options) {
+        return new L.TopoJSON(data, options);
+      };
+	  
+	//function onEachFeature(feature, layer) {
+	//	layer.bindPopup('<p>GEOID: '+feature.properties.GEOID+'</p>')
+	//}
+	
+	function lame(my_col) { 
+		return {
+            color: "#000",
+            opacity: 0.5,
+            weight: 0.5,
+            fillColor: my_col, 
+            fillOpacity: 0.8
+          };
+	}
+	
+	
+	//generate legends
+	function myLegend(zz, tt, tt2) {
+		return function(map) {
+
+			const div = L.DomUtil.create('div', 'info legend');
+			let leg_lab = legend_specs.legends[zz].contents;
+			
+			const labels = [];
+			
+			labels.push("<h4>" + tt + "</h4>");
+		
+			for (var i = 0; i < leg_lab.length; i++) {
+				labels.push('<i style="background:' + leg_lab[i].color + '"></i> ' + leg_lab[i].label);
+			}
+			
+			labels.push('<i style="background:black"></i>' );
+			labels.push("<h5>Data source: " + tt2 + "</h5>");
+			
+			div.innerHTML = labels.join('<br>');
+			
+			return div;
+
+		};
+	};
+	
+	var this_legend;	
+		
+	//attempt to automate layer generation
+	let leg_arr = legend_specs.legends;
+	var overlayMaps = {};
+	let zing = baseTree;
+	//console.log(zing);
+	const layer_arr = [];
+	const overlayLegends = {};
+	
+	for (var i = 0; i < leg_arr.length; i++) {
+	
+		var str = leg_arr[i].title;
+		var str2 = leg_arr[i].source;
+		var my_var = leg_arr[i].var_name;
+		
+		//generate legends
+		var legend = L.control({position: 'topright'});
+		legend.onAdd = myLegend(i,str,str2);
+		overlayLegends[my_var] = legend;
+		
+		//generate empty map layers
+		var gj = new L.topoJson(null, {
+			//onEachFeature
+		});
+		
+		gj.options['col_var'] = my_var;
+		
+		if (i==0) {
+			gj.addTo(map);
+			this_legend = legend;
+		}
+		
+		layer_arr.push(gj);
+		
+		overlayMaps[my_var] = gj;
+		
+	}
+		
+		
+	//manual way to update layer
+	zing['layer'] = overlayMaps[zing['name']];
+	
+	for (var i = 0; i < zing['children'].length; i++) {
+		var c1 = zing['children'][i];
+		c1['layer'] = overlayMaps[c1['name']];
+		for (var j = 0; j < c1['children'].length; j++) {
+			var c2 = c1['children'][j];
+			if (Object.hasOwn(overlayMaps, c2['name'])) {
+				c2['layer'] = overlayMaps[c2['name']];
+			} else{
+				console.log(c2['name']);
+				c1['children'].splice(j, 1);
+			}
+		}
+	}
+		
+	
+	//add ESRI REST service 
+	const CDBG = L.esri.featureLayer({
+          url: "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/Map1_WFL1/FeatureServer/1",
+		  where: "county IN ('Bronx','New York','Queens','Kings','Richmond') AND sector='Residential' AND incentive>0",
+		  style: {color: "#FF0080", weight: 2, fillOpacity: 0.0},
+		  
+		  pointToLayer: function (geojson, latlng) {
+            return L.circleMarker(latlng, {radius: 5});
+          },
+          style: {
+            color: "#FF0080",
+            weight: 3,
+            opacity: 1.00,
+            fillOpacity: 0.0
+          },
+		  
+		  
+		  onEachFeature: (feature, layer) => {
+			layer.on('mouseover', (e) => {
+				var layer = e.target;
+				layer.setStyle({weight: 5, color: '#FF0080', dashArray: '', fillOpacity: 0.7});
+				layer.bringToFront();
+			});
+			layer.on('mouseout', (e) => CDBG.resetStyle(e.target.feature.id));
+		  }
+        });
+        
+		
+	CDBG.bindPopup(function (layer) {
+		var l = layer.feature.properties;
+		var p = Math.round((((l.incentive/l.project_co)*100) + Number.EPSILON) * 10) / 10;
+		
+		return("<p>Project cost: <strong> $"+l.project_co+"</strong></br>Solar Incentive: <strong>$"+l.incentive+" ("+p+"%)</strong></p>");
+      });
+	
+	
+	var CDBG_legend = L.control({position: 'topright'});
+	
+	CDBG_legend.onAdd = function (map) {
+		const div = L.DomUtil.create('div', 'info legend');
+		div.innerHTML = '<i class="circle" style="box-shadow:0px 0px 0px 3px #FF0080 inset; margin-bottom:3px; opacity: 1.0;"></i> NYSERDA Residential Grantees';
+		return div;
+	};
+
+
+	var overlaysTree = {label: 'NYSERDA Residential Grantees', layer: CDBG};
+        
+		
+      //define a function to get and parse geojson from URL
+      async function getGeoData(url) {
+        let response = await fetch(url);
+        let data = await response.json();
+        return data;
+      }
+      
+	  
+	  function legendAdd(event) {
+	  
+		var layername = event["layer"]["_layersTreeName"];
+		
+		var CDBG_on = map.hasLayer(CDBG);
+		
+		if(CDBG_on){
+			CDBG.remove(map);
+			map.removeControl(CDBG_legend);
+		}
+		
+		map.removeControl(this_legend);
+		this_legend = overlayLegends[layername];
+		map.addControl(this_legend);
+		
+		if(CDBG_on){
+			CDBG.addTo(map)
+			map.addControl(CDBG_legend);
+		}
+		
+	  }
+	  
+	  map.on('baselayerchange', legendAdd);
+	  
+	  map.on('overlayadd', function(e){
+		if(e.layer._leaflet_id == L.stamp(CDBG)){
+			map.addControl(CDBG_legend);
+		}
+	  })
+	  
+	  
+	  map.on('overlayremove',function(e){
+		if(e.layer._leaflet_id == L.stamp(CDBG)){
+			map.removeControl(CDBG_legend);
+		}
+	  })
+	  
+	  
+	  
+	var lay;
+	  
+      //fetch the geojson and add it to our geojson layer
+      //getGeoData('../topojson/USCB_06_tract_2020.topojson').then(data => {
+	  getGeoData('https://raw.githubusercontent.com/gmculp/JS_equity_mapping/main/topojson/NYC_USCB_tract_2020.topojson').then(data => {
+		
+			for (var i = 0; i < layer_arr.length; i++) {
+				var gj = layer_arr[i];
+				//console.log(gj.options.col_var);
+				
+				gj.options['style'] = function(feature){
+					return lame(feature.properties[gj.options.col_var])
+				};
+				
+				gj.addData(data);
+		
+				if (i==0) {
+					map.fitBounds(gj.getBounds());
+				} 
+				
+			}
+	
+	
+	L.control.attribution().addTo(map);
+	let bglayer_Positron = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	});
+	
+	
+	bglayer_Positron.addTo(map);
+		
+			
+			lay = L.control.layers.tree(zing,overlaysTree,{
+                namedToggle: true,
+                selectorBack: false,
+                closedSymbol: '&#8862; &#x1f5c0;',
+                openedSymbol: '&#8863; &#x1f5c1;',
+                //collapseAll: 'Collapse all',
+                //expandAll: 'Expand all',
+                collapsed: false,
+				position: 'topleft'
+            });
+			
+		
+		lay.addTo(map);
+		lay.collapseTree(true).expandSelected(true);
+		
+		CDBG.addTo(map);
+		
+		map.addControl( map.zoomControl );
+		map.zoomControl.setPosition('bottomright'); 
+		
+		map.addControl(this_legend);
+		map.addControl(CDBG_legend);  
+		spinner.stop();
+	  });
+	 
+    </script>
+  </body>
+</html>
