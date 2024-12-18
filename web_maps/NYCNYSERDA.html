@@ -221,13 +221,13 @@
 	const CDBG = L.esri.featureLayer({
           url: "https://services2.arcgis.com/RQcpPaCpMAXzUI5g/ArcGIS/rest/services/Map1_WFL1/FeatureServer/1",
 		  where: "county IN ('Bronx','New York','Queens','Kings','Richmond') AND sector='Residential' AND incentive>0",
-		  style: {color: "#FFD9CC", weight: 2, fillOpacity: 0.0},
+		  style: {color: "#00FFFF", weight: 2, fillOpacity: 0.0},
 		  
 		  pointToLayer: function (geojson, latlng) {
             return L.circleMarker(latlng, {radius: 5});
           },
           style: {
-            color: "#FFD9CC",
+            color: "#00FFFF",
             weight: 3,
             opacity: 1.00,
             fillOpacity: 0.0
@@ -237,7 +237,7 @@
 		  onEachFeature: (feature, layer) => {
 			layer.on('mouseover', (e) => {
 				var layer = e.target;
-				layer.setStyle({weight: 5, color: '#FFD9CC', dashArray: '', fillOpacity: 0.7});
+				layer.setStyle({weight: 5, color: '#00FFFF', dashArray: '', fillOpacity: 0.7});
 				layer.bringToFront();
 			});
 			layer.on('mouseout', (e) => CDBG.resetStyle(e.target.feature.id));
@@ -257,7 +257,7 @@
 	
 	CDBG_legend.onAdd = function (map) {
 		const div = L.DomUtil.create('div', 'info legend');
-		div.innerHTML = '<i class="circle" style="box-shadow:0px 0px 0px 3px #FFD9CC inset; margin-bottom:3px; opacity: 1.0;"></i> NYSERDA Residential Grantees';
+		div.innerHTML = '<i class="circle" style="box-shadow:0px 0px 0px 3px #00FFFF inset; margin-bottom:3px; opacity: 1.0;"></i> NYSERDA Residential Grantees';
 		return div;
 	};
 
