@@ -259,6 +259,8 @@ generate_MRLC_table <- function(in.sf, spec, raster.path, in_clus = 2){
 			t.dt[,var_weight := as.character(cut(var_value, my_brks, include.lowest=T, right = T, labels = FALSE))]
 			t.dt[,var_legend := cut(var_value, my_brks, include.lowest=T, right = T, labels=class.data(my_brks,2,"%"," - ",1))]
 			t.dt[,group_name := k$group]
+			
+			
 	
 		}), use.names=TRUE, fill=TRUE)
 	}), use.names=TRUE, fill=TRUE)
@@ -578,6 +580,32 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	if("MRLC" %in% names(specs$data_sources)) my.list <- c(list(generate_MRLC_table(in.sf, specs$data_sources, raster.path, in_clus)), my.list)
 	
 	out.dt0 <- rbindlist(my.list,use.names=TRUE,fill=TRUE)
+	
+	#
+	##
+	###flip weight if specified by specs order object###
+	member_recursion <- function(k) {
+		lapply(k,function(j){
+			if("members" %in% names(j)) {
+				lapply(j$members,function(m){
+					if("order" %in% names(m)) {
+						if(m$order == 'desc'){
+							return(m$variable_name)
+						}
+					}	
+				})
+			} else{
+				member_recursion(j)
+			}
+		})
+	}
+	
+	flip_vars <- unlist(member_recursion(specs$data_sources), use.names = FALSE)
+	
+	out.dt0[,var_weight := ifelse(var_name %in% flip_vars,as.character(abs(as.integer(var_weight)-6)),var_weight)]
+	###
+	##
+	#
 	
 	out.dt1 <- rbindlist(lapply(unique(out.dt0$group_name), function(j) {
 		generate_agg_table(out.dt0[group_name==j],j)
