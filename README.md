@@ -7,7 +7,7 @@ The following maps were produced using resources available in this repository:
 
 [Bay Area Home Electrification Equity Project (HEEP) Map](https://gmculp.github.io/JS_equity_mapping/web_maps/BayAreaHEEP.html)
 
-[NYC New York State Energy Research and Development Authority (NYSERDA) Solar Projects Map](https://gmculp.github.io/JS_equity_mapping/web_maps/NYCNYSERDA.html)
+[NYC Area New York State Energy Research and Development Authority (NYSERDA) Solar Projects Map](https://gmculp.github.io/JS_equity_mapping/web_maps/NYCNYSERDA.html)
 
 ## R component
 ### R functions
