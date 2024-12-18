@@ -44,7 +44,8 @@
 				"title": "Percentage of households with older adults (age >= 65 years)",
 				"group": "soc_dem",
 				"variables": ["B11007_001E","B11007_002E"],
-				"formula": "round((B11007_002E/B11007_001E)*100)"
+				"formula": "round((B11007_002E/B11007_001E)*100)",
+				"order": "asc"
 			}, 
 			{
 				"variable_name":  "child_hh",
@@ -52,7 +53,8 @@
 				"title": "Percentage of households with young children (age <= 5 years)",
 				"group": "soc_dem",
 				"variables": ["B25012_001E","B25012_005E","B25012_013E"],
-				"formula": "round(((B25012_005E + B25012_013E)/B25012_001E)*100)"
+				"formula": "round(((B25012_005E + B25012_013E)/B25012_001E)*100)",
+				"order": "asc"
 			}, 
 			{
 				"variable_name":  "poc",
@@ -60,7 +62,8 @@
 				"title": "Percentage of population identifying as people of color (non white)",
 				"group": "soc_dem",
 				"variables": ["B01001_001E","B01001H_001E"],
-				"formula": "round((1 - (B01001H_001E/B01001_001E))*100)"
+				"formula": "round((1 - (B01001H_001E/B01001_001E))*100)",
+				"order": "asc"
 			}, 
 			{
 				"variable_name":  "lang",
@@ -68,7 +71,8 @@
 				"title": "Percentage of people over 5 years of age who speak English less than 'very well'",
 				"group": "soc_dem",
 				"variables": ["B06007_001E","B06007_005E","B06007_008E"],
-				"formula": "round(((B06007_005E + B06007_008E)/B06007_001E)*100)"
+				"formula": "round(((B06007_005E + B06007_008E)/B06007_001E)*100)",
+				"order": "asc"
 			}, 
 			{
 				"variable_name":  "low_edu",
@@ -76,7 +80,8 @@
 				"title": "Percentage of adults with less than a high school diploma",
 				"group": "soc_dem",
 				"variables": ["B06009_001E","B06009_002E"],
-				"formula": "round((B06009_002E/B06009_001E)*100)"
+				"formula": "round((B06009_002E/B06009_001E)*100)",
+				"order": "asc"
 			}, 
 			{
 				"variable_name":  "unemp",
@@ -84,7 +89,8 @@
 				"title": "Percentage of civilian labor force experiencing unemployment",
 				"group": "soc_dem",
 				"variables": ["B23025_003E","B23025_005E"],
-				"formula": "round((B23025_005E/B23025_003E)*100)"
+				"formula": "round((B23025_005E/B23025_003E)*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "med_inc_60",
@@ -93,7 +99,8 @@
 				"legend_base": "60% county-level median income",
 				"group": "soc_dem",
 				"variable": "B06011_001E",
-				"county_threshold": 60
+				"county_threshold": 60,
+				"order": "asc"
 			},
 			{
 				"variable_name":  "home_pre_1960",
@@ -101,7 +108,8 @@
 				"title": "Percentage of homes built before 1960",
 				"group": "house_energy",
 				"variables": ["B25034_001E","B25034_009E","B25034_010E","B25034_011E"],
-				"formula": "round(((B25034_009E + B25034_010E + B25034_011E)/B25034_001E)*100)"
+				"formula": "round(((B25034_009E + B25034_010E + B25034_011E)/B25034_001E)*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "cost_burden_50",
@@ -109,7 +117,8 @@
 				"title": "Percentage of households where housing costs exceed 50% of household income",
 				"group": "house_energy",
 				"variables": ["B25140_001E","B25140_004E","B25140_008E","B25140_012E"],
-				"formula": "round(((B25140_004E + B25140_008E + B25140_012E)/B25140_001E)*100)"
+				"formula": "round(((B25140_004E + B25140_008E + B25140_012E)/B25140_001E)*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "multi_unit",
@@ -117,7 +126,8 @@
 				"title": "Percentage of households within multi unit dwellings",
 				"group": "house_energy",
 				"variables": ["B25032_001E","B25032_003E","B25032_004E","B25032_014E","B25032_015E"],
-				"formula": "round((1.00 - ((B25032_003E + B25032_004E + B25032_014E + B25032_015E)/B25032_001E))*100)"
+				"formula": "round((1.00 - ((B25032_003E + B25032_004E + B25032_014E + B25032_015E)/B25032_001E))*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "renter",
@@ -125,7 +135,8 @@
 				"title": "Percentage of housing units that are renter-occupied",
 				"group": "house_energy",
 				"variables": ["B25032_001E","B25032_013E"],
-				"formula": "round((B25032_013E/B25032_001E)*100)"
+				"formula": "round((B25032_013E/B25032_001E)*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "single_hohh_dep",
@@ -133,7 +144,8 @@
 				"title": "Percentage of households where head is single and living with dependents",
 				"group": "house_energy",
 				"variables": ["B11012_001E","B11012_010E","B11012_011E","B11012_015E","B11012_016E"],
-				"formula": "round(((B11012_010E + B11012_011E + B11012_015E + B11012_016E)/B11012_001E)*100)"
+				"formula": "round(((B11012_010E + B11012_011E + B11012_015E + B11012_016E)/B11012_001E)*100)",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "crowd",
@@ -141,7 +153,8 @@
 				"title": "Percentage of household with more than one occupants per room",
 				"group": "house_energy",
 				"variables": ["B25014_001E","B25014_003E","B25014_004E","B25014_009E","B25014_010E"],
-				"formula": "round((1 - ((B25014_003E + B25014_004E + B25014_009E + B25014_010E)/B25014_001E))*100)"
+				"formula": "round((1 - ((B25014_003E + B25014_004E + B25014_009E + B25014_010E)/B25014_001E))*100)",
+				"order": "asc"
 			}
 		]
 	}],
@@ -155,49 +168,56 @@
 				"variable_label": "Utility Insecurity",
 				"title": "Percentage of househilds which experienced threat of utility services cutoff",
 				"group": "house_energy",
-				"variable": "SHUTUTILITY"
+				"variable": "SHUTUTILITY",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "CHD",
 				"variable_label": "Heart Disease",
 				"title": "Percentage of adults experiencing coronary heart disease",
 				"group": "health_dis",
-				"variable": "CHD"
+				"variable": "CHD",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "COPD",
 				"variable_label": "COPD",
 				"title": "Percentage of adults experiencing chronic obstructive pulmonary disease",
 				"group": "health_dis",
-				"variable": "COPD"
+				"variable": "COPD",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "DIABETES",
 				"variable_label": "Diabetes",
 				"title": "Percentage of adults diagnosed with diabetes",
 				"group": "health_dis",
-				"variable": "DIABETES"
+				"variable": "DIABETES",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "CANCER",
 				"variable_label": "Cancer",
 				"title": "Percentage of adults experiencing cancer (non-skin) or melanoma",
 				"group": "health_dis",
-				"variable": "CANCER"
+				"variable": "CANCER",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "CASTHMA",
 				"variable_label": "Asthma",
 				"title": "Percentage of adults currently experiencing asthma",
 				"group": "health_dis",
-				"variable": "CASTHMA"
+				"variable": "CASTHMA",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "DISABILITY",
 				"variable_label": "Disability",
 				"title": "Percentage of adults with any disability",
 				"group": "health_dis",
-				"variable": "DISABILITY"
+				"variable": "DISABILITY",
+				"order": "asc"
 			}
 		]
 	}],
@@ -211,14 +231,16 @@
 				"variable_label": "Traffic Proximity",
 				"title": "Percentile for Traffic proximity EJ Index",
 				"group": "environmental",
-				"variable": "P_D2_PTRAF"
+				"variable": "P_D2_PTRAF",
+				"order": "asc"
 			},
 			{
 				"variable_name":  "P_D2_PM25",
 				"variable_label": "PM 2.5",
 				"title": "Percentile for Particulate Matter 2.5 EJ Index",
 				"group": "environmental",
-				"variable": "P_D2_PM25"
+				"variable": "P_D2_PM25",
+				"order": "asc"
 			}
 		]
 	}],
@@ -232,7 +254,8 @@
 				"variable_label": "PSPS Areas",
 				"title": "Percentage of tract area within PG&E Public safety power shut off areas",
 				"group": "environmental",
-				"formula": "1=1"
+				"formula": "1=1",
+				"order": "asc"
 			}
 		]
 	},
@@ -246,7 +269,8 @@
 				"variable_label": "Redlined Areas",
 				"title": "Percentage of tract area within historically redlined areas",
 				"group": "environmental",
-				"formula": "grade='D'"
+				"formula": "grade='D'",
+				"order": "asc"
 			}
 		]
 	}],
@@ -260,7 +284,8 @@
 				"variable_name": "perc_impervious",
 				"variable_label": "Impervious Surfaces",
 				"title": "Percentage of tract area categorized as impervious surfaces",
-				"group": "environmental"
+				"group": "environmental",
+				"order": "asc"
 			}
 		]
 	},
@@ -274,7 +299,8 @@
 				"variable_name": "perc_tree_canopy",
 				"variable_label": "Tree Canopy",
 				"title": "Percentage of tract area categorized as tree canopy",
-				"group": "environmental"
+				"group": "environmental",
+				"order": "desc"
 			}
 		]
 	}]
