@@ -315,8 +315,7 @@
 	var lay;
 	  
       //fetch the geojson and add it to our geojson layer
-      //getGeoData('../topojson/USCB_06_tract_2020.topojson').then(data => {
-	  getGeoData('https://raw.githubusercontent.com/gmculp/JS_equity_mapping/main/topojson/NYC_USCB_tract_2020.topojson').then(data => {
+      getGeoData('../topojson/NYC_USCB_06_tract_2020.topojson').then(data => {
 		
 			for (var i = 0; i < layer_arr.length; i++) {
 				var gj = layer_arr[i];
