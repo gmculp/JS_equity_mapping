@@ -1,7 +1,7 @@
 # JS_equity_mapping
 
 ## Description
-This repository contains functions for generating vulnerability data using R and visualizing it on a Leaflet interactive web map using JavaScript.  It is a work in progress (in other words, there are likely some bugs) and will be updated reglarly. 
+This repository contains functions for generating vulnerability data using R and visualizing it on a Leaflet interactive web map using JavaScript.  It is a work in progress (in other words, there are likely some bugs) and will be updated regularly. 
 
 The following maps were produced using resources available in this repository:
 
