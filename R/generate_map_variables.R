@@ -159,9 +159,9 @@ process_face_files <- function(FIPS.dt, USCB_TIGER.path, geo.year="2020") {
 
 
 calc_perc_from_raster <- function(test.r1, in.sf, in_clus = 2){
-
-	test.r1 <- crop(test.r1, ext(project(vect(st_as_sfc(st_bbox(in.sf))), crs(test.r1))))
-
+	in.sf <- sf::st_transform(in.sf, 5070)
+	#test.r1 <- r
+	test.r1 <- clamp(test.r1, 0, 100, values=FALSE)
 	n.r <- nrow(test.r1)
 	n.c <- ncol(test.r1)
 	n_n <- 10
@@ -183,16 +183,15 @@ calc_perc_from_raster <- function(test.r1, in.sf, in_clus = 2){
 	dt.pts <- data.table::rbindlist(parallel::mclapply(1:in_clus, function(j) {
 
 		test.dt <- data.table::rbindlist(lapply(in.dt[pc==j]$id, function(k) { 
+		
+			#k <- 100
 			
 			temp.r <- test.r1[(in.dt[id==k]$r.min:in.dt[id==k]$r.max), (in.dt[id==k]$c.min:in.dt[id==k]$c.max), drop=FALSE]
-			
-			terra::NAflag(temp.r) <- 127
-			terra::NAflag(temp.r) <- 0
 			
 			temp.p <- st_as_sf(terra::as.points(temp.r, na.rm=TRUE))
 			
 			if(nrow(temp.p) > 0){
-				temp.p <- st_transform(temp.p, st_crs(in.sf))
+				#temp.p <- st_transform(temp.p, st_crs(in.sf))
 				
 				if(nrow(in.sf[lengths(st_intersects(in.sf, temp.p)) > 0,]) > 0){
 				
@@ -217,16 +216,21 @@ calc_perc_from_raster <- function(test.r1, in.sf, in_clus = 2){
 		
 	}, mc.preschedule=FALSE, affinity.list = 1:in_clus),use.names=TRUE,fill=TRUE)
 	
-	sz <- as.numeric(st_area(st_transform(st_as_sf(terra::as.polygons(test.r1[(1:1), (1:1), drop=FALSE], aggregate=FALSE, na.rm=TRUE)), st_crs(in.sf))))
+	#sz <- as.numeric(st_area(st_transform(st_as_sf(terra::as.polygons(test.r1[(1:1), (1:1), drop=FALSE], aggregate=FALSE, na.rm=TRUE)), st_crs(in.sf))))
+	
+	sz <- as.numeric(st_area(st_as_sf(terra::as.polygons(test.r1[(1:1), (1:1), drop=FALSE], aggregate=FALSE, na.rm=TRUE))))
+	
 	in.sf$total.area <- as.numeric(st_area(in.sf))
 
-	dt.pts[,sub.area := (ifelse(Layer_1 > 100,0,Layer_1)/100) * sz]
+	dt.pts[,sub.area := (Layer_1/100) * sz]
 	
 	dt.out <- dt.pts[,.(sub.area=sum(sub.area)), by=c('GEOID')]
 	
 	dt.out <- merge(dt.out, as.data.table(st_drop_geometry(in.sf))[,c('GEOID',"total.area"),with=FALSE], by='GEOID')
 	
 	dt.out[,var_value := round((sub.area/total.area)*100,1)]
+	
+	dt.out[,var_value := pmin(var_value,100)]
 	
 	dt.out[,c('sub.area','total.area') := NULL]
 	
@@ -244,14 +248,23 @@ calc_perc_from_raster <- function(test.r1, in.sf, in_clus = 2){
 }
 
 ###update once WMS services are whitelisted###
-generate_MRLC_table <- function(in.sf, spec, raster.path, in_clus = 2){
-	
+generate_MRLC_table <- function(in.sf, spec, in_clus = 2){	
+
+	r.sf <- sf::st_transform(in.sf, 5070)
+	bb <- as.numeric(st_bbox(r.sf)) 
+	tmp <- tempfile()
+
 	MRLC.dt <- rbindlist(lapply(spec$MRLC, function(j) {
 		
-		r <- terra::rast(file.path(raster.path, j$file))
+		full.url <-  paste0(j$URL,"&subset=X(", floor(bb[1]), ",", ceiling(bb[3]), ")&subset=Y(", floor(bb[2]), ",", ceiling(bb[4]), ")")
+		
+		httr::GET(URLencode(full.url), httr::write_disk(tmp, overwrite = TRUE))
+		
+		r <- rast(tmp)
+		names(r) <- c('Layer_1')
 		temp.dt <- rbindlist(lapply(j$members, function(k) {
 	
-			t.dt <- calc_perc_from_raster(r, in.sf,in_clus)
+			t.dt <- calc_perc_from_raster(r, in.sf, in_clus)
 			t.dt[,var_name := k$variable_name]
 			
 			my_brks <- quantile(t.dt$var_value, probs = seq(0, 1, length.out = 6), na.rm=TRUE)
@@ -546,7 +559,7 @@ generate_USCB_table <- function(FIPS.dt,spec){
 }
 
 
-generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, output.path, in_clus = 2) {
+generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, geo.year, output.path, in_clus = 2) {
 
 	if(!dir.exists(output.path)){
 		stop("\nOutput file path does not exist. File will not be saved.\n")
@@ -577,7 +590,7 @@ generate_map_variables <- function(specs, FIPS.dt, USCB_TIGER.path, raster.path,
 	if("USCB" %in% names(specs$data_sources)) my.list <- c(list(generate_USCB_table(FIPS.dt,specs$data_sources)), my.list)
 	if("ESRI" %in% names(specs$data_sources)) my.list <- c(list(generate_ESRI_REST_table(in.sf, specs$data_sources, in_clus)), my.list)
 	if("EPA" %in% names(specs$data_sources)) my.list <- c(list(generate_EJSCREEN_table(FIPS.dt,specs$data_sources)), my.list)
-	if("MRLC" %in% names(specs$data_sources)) my.list <- c(list(generate_MRLC_table(in.sf, specs$data_sources, raster.path, in_clus)), my.list)
+	if("MRLC" %in% names(specs$data_sources)) my.list <- c(list(generate_MRLC_table(in.sf, specs$data_sources, in_clus)), my.list)
 	
 	out.dt0 <- rbindlist(my.list,use.names=TRUE,fill=TRUE)
 	
