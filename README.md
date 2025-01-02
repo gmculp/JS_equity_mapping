@@ -30,7 +30,7 @@ Required packages that must be installed to run this code:
 
 * ```terra```: for reading in and processing raster data
 
-* * ```httr```: for making http requests to the USCB geocoding API and MRLC Geoserver
+* ```httr```: for making http requests to the USCB geocoding API and MRLC Geoserver
 
 * ```jsonlite```: for processing JSON from the USCB geocoding API
 
