@@ -56,18 +56,6 @@ geo.year <- "2020"
 ###for 2020###
 download_USCB_TIGER_files(FIPS.dt,USCB_TIGER.path,geo.year)
 
-###download NLCD Land Use raster files###
-###future upgrade: pull tiles directly from geoserver to omit this step###
-raster.path <- "C:/map_resources/rasters"
-tmpdir <- tempdir()
-f_paths <- c('https://s3-us-west-2.amazonaws.com/mrlc/nlcd_2021_impervious_l48_20230630.zip', https://s3-us-west-2.amazonaws.com/mrlc/nlcd_tcc_CONUS_2021_v2021-4.zip)
-
-for(f_path in f_paths) {
-	file <- basename(f_path)
-	download.file(f_path, file.path(tmpdir,file))	
-	unzip(file.path(tmpdir,file), exdir = raster.path)
-}
-
 ###load JSON file containing data and map specs###
 specs <- fromJSON(file.path(gh_path,'R/API_variables.json'), simplifyVector = FALSE)
 
@@ -99,7 +87,7 @@ specs$color_palette <- lapply(viridis::viridis_pal(option = "B")(9)[3:7],functio
 output.path <- "C:/map_resources/Leaflet_files/NYC"
 
 ###generate table containing variables by tract GEOID and JS files for legend and layer controls###
-generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, raster.path, geo.year, output.path, in_clus = 20)
+generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, geo.year, output.path, in_clus = 20)
 
 ###generate topojson enriched with variable data###
 generate_USCB_spatial_file(FIPS.dt, USCB_TIGER.path, geo.year, geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, input.file_name=file.path(output.path,"map_variables.txt"), in_clus=20, na_color = specs$NA_color)
