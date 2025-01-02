@@ -277,7 +277,7 @@
 	"MRLC": [{
 		"survey": "NLCD",
 		"vintage": "2021",
-		"URL": "https://www.mrlc.gov/geoserver/mrlc_display/NLCD_2021_Impervious_L48/wms",
+		"URL": "https://www.mrlc.gov/geoserver/mrlc_download/NLCD_2019_Impervious_L48/wcs?service=WCS&version=2.0.1&request=GetCoverage&coverageid=NLCD_2019_Impervious_L48",
 		"file":"nlcd_2021_impervious_l48_20230630.img",
 		"members":[
 			{
@@ -292,7 +292,7 @@
 	{
 		"survey": "NLCD",
 		"vintage": "2021",
-		"URL": "https://www.mrlc.gov/geoserver/mrlc_display/nlcd_tcc_conus_2021_v2021-4/wms",
+		"URL": "https://www.mrlc.gov/geoserver/mrlc_download/nlcd_tcc_conus_2021_v2021-4/wcs?service=WCS&version=2.0.1&request=GetCoverage&coverageid=nlcd_tcc_conus_2021_v2021-4",
 		"file": "nlcd_tcc_conus_2021_v2021-4.tif",
 		"members":[
 			{
