@@ -36,6 +36,8 @@ Required packages that must be installed to run this code:
 
 * ```igraph```: for collapsing directional multipart polylines in edges files into single part polylines
 
+* ```geojsonio```: for converting shapefiles into space saving topojson format
+
 ## Usage	  
 Here is an R code sample for generating spatial data and supporting files for a Leaflet map of the five boroughs of New York City with custom settings:
 ```
