@@ -95,3 +95,6 @@ generate_map_variables(specs, FIPS.dt, USCB_TIGER.path, geo.year, output.path, i
 
 ###generate topojson enriched with variable data###
 generate_USCB_spatial_file(FIPS.dt, USCB_TIGER.path, geo.year, geo.type="tract", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, input.file_name=file.path(output.path,"map_variables.txt"), in_clus=20, na_color = specs$NA_color)
+
+###this line of code will generate a topojson file (in this case, at the PUMA level) without variable data###
+generate_USCB_spatial_file(FIPS.dt, USCB_TIGER.path, geo.year, geo.type="puma", omit.unpopulated=TRUE, omit.artifacts=TRUE, omit.coast=TRUE, output.path, in_clus=20)
